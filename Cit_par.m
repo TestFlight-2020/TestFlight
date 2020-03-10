@@ -5,7 +5,7 @@
 % Stationary flight condition
 
 hp0    = 5000;      	  % pressure altitude in the stationary flight condition [m]
-V0     = 300;            % true airspeed in the stationary flight condition [m/sec]
+V0     = 200;            % true airspeed in the stationary flight condition [m/sec]
 alpha0 = 0;       	  % angle of attack in the stationary flight condition [rad]
 th0    = 0;       	  % pitch angle in the stationary flight condition [rad]
 

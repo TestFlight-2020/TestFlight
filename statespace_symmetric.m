@@ -54,6 +54,6 @@ symetric = ss(A,B,C,D);
 
 eig(symetric.A)
 t = 0:0.01:300;
-u = -0.4/180*pi*ones(size(t));
+u = -0.4/180*pi*ones(size(t))
 u(2000:end) = 0;
 lsim(symetric, u, t)
