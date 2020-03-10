@@ -5,32 +5,42 @@ clear all;
 close all;
 clc;
 
-load 
+load('matlab.mat')
 
 %Constants:
 run("Cit_par.m");
 
-p = 1
-p0 = 1
-gamma = 1.4
-hp = 1
-g0 = 1
-V_c = 1
+
+p0 = 101325;
+gamma = 1.4;
+
+alt = flightdata.Dadc1_alt.data;
+hp = alt;
+cas = flightdata.Dadc1_cas.data;
+V_c = cas;
+sat = flightdata.Dadc1_sat.data;
+Tm = sat;
 
 %P
-p = p0* ( (1 + ((lambda*hp)/Temp0))^(-(g0/(lambda*R))))
-%--> V_c in M???
+p = p0* ( (1 + ((lambda*hp)/Temp0)).^(-(g/(lambda*R))));
 %M
-M = sqrt( (2/(gamma-1)) * ((1+(p0/p)*((1+((gamma-1)/(2*gamma))*(rho0/p0)*V_c^2)^(gamma/(gamma-1))-1))^((gamma-1)/gamma) -1))
-%T 
-T = Tm/(1+((gamma-1)/2)*M^2)
-%a
-a = sqrt( gamma*R*T)
-%V_t
-V_t = M*a
-%V_c
-V_c = V_t * sqrt((rho/rho0))
+M = sqrt(    (2/(gamma-1)) * ((1+(p0/p)*((1+((gamma-1)/(2*gamma))*(rho0/p0)*V_c.^2).^(gamma/(gamma-1))-1)).^(((gamma-1)/gamma) -1)   ));
+%Redo M
 
+M3 = 
+M4 = M3 - 1 
+M5 = (2/(gamma-1))*M4 
+M6 = sqrt(M5)
+%T 
+T = Tm/(1+((gamma-1)/2)*M.^2);
+%a
+a = sqrt( gamma*R*T);
+%V_t
+V_t = M*a;
+%rho --> from perfect gas law
+rhoreduction = p/(R*T);
+%V_e
+V_e = V_t * sqrt((rhoreduction/rho0));
 
 
 
