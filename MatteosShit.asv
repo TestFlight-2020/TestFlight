@@ -1,0 +1,38 @@
+%From V_c to V_e
+
+
+clear all;
+close all;
+clc;
+
+load 
+
+%Constants:
+run("Cit_par.m");
+
+p = 1
+p0 = 1
+gamma = 1.4
+hp = 1
+g0 = 1
+V_c = 1
+
+%P
+p = p0* ( (1 + ((lambda*hp)/Temp0))^(-(g0/(lambda*R))))
+%--> V_c in M???
+%M
+M = sqrt( (2/(gamma-1)) * ((1+(p0/p)*((1+((gamma-1)/(2*gamma))*(rho0/p0)*V_c^2)^(gamma/(gamma-1))-1))^((gamma-1)/gamma) -1))
+%T 
+T = Tm/(1+((gamma-1)/2)*M^2)
+%a
+a = sqrt( gamma*R*T)
+%V_t
+V_t = M*a
+%V_c
+V_c = V_t * sqrt((rho/rho0))
+
+
+
+
+
+
