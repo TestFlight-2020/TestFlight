@@ -13,8 +13,11 @@ A_measurement = [1157 5010 249 1.7 798 813 360 12.5;
 
 %[ET hp IAS a FFl FFr Fu TAT]
 
-cl(pounds_ZFM,pounds_FuelStart,A_measurement)
 
+plot(A_measurement(:,4),cl(pounds_ZFM,pounds_FuelStart,A_measurement));
+title("C_L_\alpha");
+ylabel("C_L [-]");
+xlabel("\alpha [deg]");
 
 
 
