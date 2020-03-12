@@ -2,6 +2,7 @@ clear all;
 close all;
 clc;
 load("matlab.mat")
+load("Thrust.m")
 %parameters
 Cmdelta = -0.1293;
 Weight0 = 60500 ;%N 
@@ -97,3 +98,12 @@ ax2.YAxisLocation = 'origin'
 
 Cmalpha = -Cmdelta*m
 m 
+
+Hp        = 2060; %m
+Mach      = 0.50;
+fuelleft  = 0.0400; %kg/s
+fuelright = 0.0300;%kg/s
+Delta_T   =  5;    %degrees
+
+
+Thrustcalc(Hp, Mach,Delta_T,fuelleft,fuelright)
