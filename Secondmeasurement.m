@@ -32,16 +32,21 @@ end
 
 %Reducing Velocity
 V_reduced = [];
-for a=1:1:length(V) ;
+for a=1:1:length(V);
     temp = V(a)*sqrt((Weight0/9.81-data(a,9))/(Weight0/9.81))^(-1);
     V_reduced = [V_reduced temp];
 end
 
 %plotting
+%elevator deflection
+xq = min(V_reduced):0.01:max(V_reduced)
+yq = interp1(V_reduced, de,xq,"spline")
 figure();
-
+hold on
 scatter(V_reduced,de);
-xlabel('V_reduced (m/s)');
+plot(xq,yq)
+hold off
+xlabel('Vreduced (m/s)');
 ylabel('Elevator deflection (rad)');
 grid on
 ax = gca;
@@ -49,12 +54,16 @@ set(ax, 'Ydir', 'reverse')
 ax.XAxisLocation = 'origin'
 ax.YAxisLocation = 'origin'
 
+%Stick force
+xq2 = min(V_reduced):0.01:max(V_reduced)
+yq2 = interp1(V_reduced, Fe_reduced,xq,"spline")
 figure();
+hold on
 scatter(V_reduced,Fe_reduced);
-xlabel('V_reduced (m/s)');
+plot(xq2,yq2)
+hold off
+xlabel('Vreduced (m/s)');
 ylabel('Stick force reduced(N)')
-
-
 grid on
 ax2 = gca;
 set(ax2, 'Ydir', 'reverse');
@@ -66,18 +75,24 @@ ax2.YAxisLocation = 'origin'
 [r,m,b] = regression(alpha,de);
 
 
-figure();
-x= 0:0.1:5
+
+x = 0:0.01:0.2
 y = m*x+b
-scatter(alpha , de);
+
+figure();
+scatter(alpha,de);
+hold on 
 plot(x,y)
-xlabel = ("Alpha (rad)");
-ylabel = ("Elevator deflection (rad)");
+hold off
+xlabel("Alpha (rad)");
+ylabel("Elevator deflection (rad)");
+
+
 grid on
-ax3 = gca;
-set(ax3, 'Ydir', 'reverse')
-ax3.XAxisLocation = 'origin'
-ax3.YAxisLocation = 'origin'
+ax2 = gca;
+set(ax2, 'Ydir', 'reverse');
+ax2.XAxisLocation = 'origin'
+ax2.YAxisLocation = 'origin'
 
 
 Cmalpha = -Cmdelta*m
