@@ -1,7 +1,7 @@
 clear all;
 close all;
 clc;
-
+load("matlab.mat")
 %parameters
 Cmdelta = -0.1293;
 Weight0 = 60500 ;%N 
