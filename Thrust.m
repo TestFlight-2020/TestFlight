@@ -1,6 +1,10 @@
-clear all;
-close all;
-clc;
+Hp        = 2060; %m
+Mach      = 0.50;
+fuelleft  = 0.0400; %kg/s
+fuelright = 0.0300;%kg/s
+Delta_T   =  5;    %degrees
+
+Thrustcalc(Hp,Mach,Delta_T,fuelleft,fuelright)
 
 function[Thrustlr] = Thrustcalc(Hp,Mach,Delta_T,fuelleft,fuelright)
 %Hp [m],Mach [-],Delta_T[deg],fuelleft[kg/s],fuelright[kg/s]
@@ -17,5 +21,5 @@ system('thrust.exe &');
 
 %output
 load("thrust.dat");
-Thrustlr = thrust
+Thrustlr = thrust;
 end

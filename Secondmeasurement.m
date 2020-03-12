@@ -1,8 +1,7 @@
 clear all;
 close all;
 clc;
-load("matlab.mat")
-load("Thrust.m")
+
 %parameters
 Cmdelta = -0.1293;
 Weight0 = 60500 ;%N 
@@ -40,20 +39,20 @@ end
 
 %plotting
 %elevator deflection
-xq = min(V_reduced):0.01:max(V_reduced)
-yq = interp1(V_reduced, de,xq,"spline")
+xq = min(V_reduced):0.01:max(V_reduced);
+yq = interp1(V_reduced, de,xq,"spline");
 figure();
-hold on
+hold on;
 scatter(V_reduced,de);
-plot(xq,yq)
-hold off
+plot(xq,yq);
+hold off;
 xlabel('Vreduced (m/s)');
 ylabel('Elevator deflection (rad)');
-grid on
+grid on;
 ax = gca;
-set(ax, 'Ydir', 'reverse')
-ax.XAxisLocation = 'origin'
-ax.YAxisLocation = 'origin'
+set(ax, 'Ydir', 'reverse');
+ax.XAxisLocation = 'origin';
+ax.YAxisLocation = 'origin';
 
 %Stick force
 xq2 = min(V_reduced):0.01:max(V_reduced)
@@ -99,11 +98,5 @@ ax2.YAxisLocation = 'origin'
 Cmalpha = -Cmdelta*m
 m 
 
-Hp        = 2060; %m
-Mach      = 0.50;
-fuelleft  = 0.0400; %kg/s
-fuelright = 0.0300;%kg/s
-Delta_T   =  5;    %degrees
 
 
-Thrustcalc(Hp, Mach,Delta_T,fuelleft,fuelright)
