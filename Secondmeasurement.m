@@ -17,15 +17,15 @@ data = [6060	161	5.3	0	2.8	0	462	486	664	5.5;
 5810	179	4.1	0.6	2.8	40	472	496	825	6.2;
 5310	192	3.4	1	2.8	83	482	505	846	8.2];
 
-V = transpose(data(:,2))*0.51444;
-Fe = transpose(data(:,6));
-alpha = transpose(data(:,3))/180*pi;
-de = transpose(data(:,4))/180*pi;
+V = transpose(data(:,2))*0.51444;%kts to m/s
+Fe = transpose(data(:,6)); %N
+alpha = transpose(data(:,3))/180*pi;%deg to rad
+de = transpose(data(:,4))/180*pi; %deg to rad
 Fe_reduced = [];
 
 %Reducing the Force
 for a=1:1:length(Fe) ;
-    temp = Fe(a)*((Weight0/9.81-data(a,9))/(Weight0/9.81))^(-1);
+    temp = Fe(a)*((Weight0/9.81-data(a,9)*0.4535)/(Weight0/9.81))^(-1);
     Fe_reduced = [Fe_reduced temp];
 end
 
@@ -96,4 +96,4 @@ ax2.YAxisLocation = 'origin'
 
 
 Cmalpha = -Cmdelta*m
-m
+m 
