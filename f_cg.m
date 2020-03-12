@@ -48,7 +48,7 @@ Wlh = flightdata.lh_engine_FMF.data/3600;       %pounds/s
 Wrh = flightdata.rh_engine_FMF.data/3600;       %pounds/s
 time = flightdata.time.data;                    %s
 
-% W(3062,pounds_ZFM,pounds_FuelStart,Wlh,Wrh);
+W(3062,pounds_ZFM,pounds_FuelStart,Wlh,Wrh)
 % cg(500,A_payload,BEM,pounds_FuelStart,pounds_ZFM,A_fuel,Wlh,Wrh)
 
 
