@@ -1,3 +1,6 @@
+clear all;
+close all;
+clc;
 %input
 Hp        = 2060; %m
 Mach      = 0.50;
