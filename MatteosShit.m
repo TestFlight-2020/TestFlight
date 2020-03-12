@@ -2,13 +2,16 @@
 %From V_c to V_e
 
 
-clear all;
-close all;
-clc;
+% clear all;
+% close all;
+% clc;
 
 load('matlab.mat')
+% load('Cit_par.m')
 
-function [V_e]= EquivalentAirspeed(t, lambda, Temp0, g, R)
+output = equivalentAirspeed(20009, lambda, Temp0, g, R, flightdata);
+
+function [V_e]= equivalentAirspeed(t, lambda, Temp0, g, R, flightdata)
 %This function calculates the Equivalent Aispeed
 %Constants:
 run("Cit_par.m");
@@ -22,9 +25,9 @@ V_c = cas.*0.514444;
 sat = flightdata.Dadc1_sat.data;
 Tm = sat + 273.15;
 
-hp_t = hp(t)
-V_c_t = V_c(t)
-Tm_t = Tm(t)
+hp_t = hp(t);
+V_c_t = V_c(t);
+Tm_t = Tm(t);
 
 
 %P 
@@ -48,10 +51,10 @@ V_t = M6.*a;
 rhoreduction1 = R .* T;
 rhoreduction2 = p.* (1./rhoreduction1);
 %V_e
-V_e = V_t .* sqrt((rhoreduction2./rho0));
+V_e = V_t .* sqrt((rhoreduction2./rho0))
 end
 
-EquivalentAirspeed(2, lambda, Temp0, g, R)
+
 
 
  

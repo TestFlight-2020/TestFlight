@@ -2,13 +2,15 @@
 %From V_c to V_e
 
 
-clear all;
-close all;
-clc;
+% clear all;
+% close all;
+% clc;
 
 load('matlab.mat')
 
-function [V_e]= EquivalentAirspeed(t, lambda, Temp0, g, R, T)
+EquivalentAirspeed(2, lambda, Temp0, g, R)
+
+function [V_e]= EquivalentAirspeed(t, lambda, Temp0, g, R)
 %This function calculates the Equivalent Aispeed
 %Constants:
 run("Cit_par.m");
@@ -26,6 +28,7 @@ hp_t = hp(t)
 V_c_t = V_c(t)
 Tm_t = Tm(t)
 
+
 %P 
 p = p0* ( (1 + ((lambda*hp_t)/Temp0)).^(-(g/(lambda*R))));
 %M
@@ -38,7 +41,7 @@ M4 = M3 - 1 ;
 M5 = (2/(gamma-1))*M4 ;
 M6 = sqrt(M5);
 %T 
-T = Tm./(1+((gamma-1)/2).*M6.^2);
+T = Tm_t./(1+((gamma-1)/2).*M6.^2);
 %a
 a = sqrt( gamma*R*T);
 %V_t
@@ -49,6 +52,7 @@ rhoreduction2 = p.* (1./rhoreduction1);
 %V_e
 V_e = V_t .* sqrt((rhoreduction2./rho0));
 end
+
 
 
 
