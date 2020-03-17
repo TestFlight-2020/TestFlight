@@ -1,12 +1,12 @@
 run("statespace_symmetric.m");
-load("matlab.mat");
+load("ours.mat");
 
 
 aoa = flightdata.vane_AOA.data;
 t = flightdata.time.data;
 sampling_rate = 1/(t(2)-t(1));
-t_start = 31854;
-t_end = 34450;
+t_start = 25800;
+t_end = 28000;
 t = t(t_start:t_end)-t(t_start);
 
 hp = flightdata.Dadc1_alt.data(t_start)
@@ -33,6 +33,11 @@ tas_num = y(t_start_tas:end, 1);
 tas_rea = tas(t_start_tas:end);
 t_sim = t(t_start_tas:end);
 
+[peaks, locs] = findpeaks(tas_num, t_sim);
+freq = (2*pi./diff(locs));
+freq = freq(1);
+%ft = fittype('a*exp(b*x)*sin(f*x+c)+d','problem','f', 'Method', 'NonlinearLeastSquares');
+%f = fit(t_sim, tas_num, ft, freq)
 
 tiledlayout(2,2);
 % nexttile
