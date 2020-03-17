@@ -1,15 +1,15 @@
 
 %inputs in pounds unless other unit is stated behind it
 
-pounds_seat1 = 90/0.453592;
+pounds_seat1 = 80/0.453592;
 pounds_seat2 = 102/0.453592;
-pounds_seat3 = 83/0.453592;
-pounds_seat4 = 94/0.453592;
-pounds_seat5 = 84/0.453592;
-pounds_seat6 = 74/0.453592;
-pounds_seat7 = 79/0.453592;
-pounds_seat8 = 103/0.453592;
-pounds_seat10 = 80/0.453592;
+pounds_seat3 = 71/0.453592;
+pounds_seat4 = 77/0.453592;
+pounds_seat5 = 76/0.453592;
+pounds_seat6 = 64/0.453592;
+pounds_seat7 = 74/0.453592;
+pounds_seat8 = 99/0.453592;
+pounds_seat10 = 60/0.453592;
 pounds_nose = 0;
 pounds_aft1 = 0;
 pounds_aft2 = 0;
