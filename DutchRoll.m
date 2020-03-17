@@ -5,8 +5,8 @@ load("ours.mat");
 aoa = flightdata.vane_AOA.data;
 t = flightdata.time.data;
 sampling_rate = 1/(t(2)-t(1));
-t_start = 28910-20;
-t_end = t_start+600;
+t_start = 33950;
+t_end = t_start+350;
 t = t(t_start:t_end)-t(t_start);
 
 hp = flightdata.Dadc1_alt.data(t_start)
