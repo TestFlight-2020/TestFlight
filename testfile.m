@@ -1,0 +1,1 @@
+testeas = eas(295, lambda, Temp0, g, R, flightdata, pounds_ZFM,pounds_FuelStart,Wlh,Wrh, time);
