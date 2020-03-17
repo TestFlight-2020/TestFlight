@@ -1,6 +1,6 @@
-% clear all;
-% close all;
-% clc;
+clear all;
+close all;
+clc;
 load('matlab.mat')
 %inputs in pounds unless other unit is stated behind it
 
