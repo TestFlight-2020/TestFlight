@@ -25,16 +25,17 @@ A_measurementflight = [1130 5030 251 1.6 770 806 367 10.2;
 
 %[ET hp IAS a FFl FFr Fu TAT]
 
-
-plot(A_measurementref(:,4),cl(pounds_ZFM,pounds_FuelStart,A_measurementref));
+subplot(1,2,1);
+plot(A_measurementref(:,4),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
 title("C_L_\alpha reference data");
 ylabel("C_L [-]");
 xlabel("\alpha [deg]");
 
-% plot(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
-% title("C_L_\alpha flight data");
-% ylabel("C_L [-]");
-% xlabel("\alpha [deg]");
+subplot(1,2,2);
+plot(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
+title("C_L_\alpha flight data");
+ylabel("C_L [-]");
+xlabel("\alpha [deg]");
 
 
 function [W_kg] = W_loc(N_m,pounds_ZFM,pounds_FuelStart,A_measurement)

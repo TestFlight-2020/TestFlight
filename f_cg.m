@@ -1,36 +1,15 @@
 clear all;
 close all;
 clc;
-load('matlab.mat')
-%inputs in pounds unless other unit is stated behind it
+% For this program to work you need to uncommend either the first or the
+% second two beneath. First two refer to the reference data and last two to
+%"our" flight
 
-pounds_seat1 = 95/0.453592;
-pounds_seat2 = 92/0.453592;
-pounds_seat3 = 66/0.453592;
-pounds_seat4 = 61/0.453592;
-pounds_seat5 = 75/0.453592;
-pounds_seat6 = 78/0.453592;
-pounds_seat7 = 86/0.453592;
-pounds_seat8 = 68/0.453592;
-pounds_seat10 = 74/0.453592;
-pounds_nose = 0;
-pounds_aft1 = 0;
-pounds_aft2 = 0;
-pounds_FuelStart = 4050;
+% load('matlab.mat')
+% run('refdataone.m');
 
-%seats contain 9x2 matrix with [x_cg_fromfront[inches],mass[pounds]] per
-%seat
-seats = [131 pounds_seat1; 131 pounds_seat2; 214 pounds_seat3; 214 pounds_seat4; 251 pounds_seat5; 251 pounds_seat6; 288 pounds_seat7; 288 pounds_seat8; 170 pounds_seat10];
-
-baggage = [74 pounds_nose; 321 pounds_aft1; 338 pounds_aft2];
-
-A_payload = [seats;baggage];
-
-pounds_payload = sum(A_payload(:,2));
-
-BEM = [9165.0 291.65];      % [pounds inches]
-
-pounds_ZFM = pounds_payload + BEM(1,1);
+load('ours.mat')
+run('flightdataone.m')
 
 
 A = [100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500];
@@ -48,8 +27,8 @@ Wlh = flightdata.lh_engine_FMF.data/3600;       %pounds/s
 Wrh = flightdata.rh_engine_FMF.data/3600;       %pounds/s
 time = flightdata.time.data;                    %s
 
-% W(3062,pounds_ZFM,pounds_FuelStart,Wlh,Wrh);
-% cg(500,A_payload,BEM,pounds_FuelStart,pounds_ZFM,A_fuel,Wlh,Wrh)
+% W(3062,pounds_ZFMflight,pounds_FuelStartflight,Wlh,Wrh);
+% cg(500,A_payloadflight,BEM,pounds_FuelStartflight,pounds_ZFMflight,A_fuel,Wlh,Wrh)
 
 
 function [Wans] = W(t,pounds_ZFM,pounds_FuelStart,Wlh,Wrh)
