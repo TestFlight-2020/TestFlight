@@ -1,8 +1,8 @@
-clear all;
-close all;
-clc;
-
-run("Cit_par.m")
+% clear all;
+% close all;
+% clc;
+% 
+% run("Cit_par.m")
 
 % Symmetric Motion
 M = eye(4);
@@ -53,10 +53,12 @@ D = [0;0;0;0];
 symmetric = ss(A,B,C,D);
 symmetric.OutputName = ["Velocity deviation", "Angle of Attack", "Body Angle", "Pitch Rate"];
 
-% eig(symmetric.A)
-% t = 0:0.01:35;
-% u = -0.5/180*pi*ones(size(t));
-% u(1:5/0.01) = 0;
-% lsim(symmetric, u, t)
+A
+eig(symmetric.A)
+t = 0:0.01:35;
+u = -0.5/180*pi*ones(size(t));
+u(1:5/0.01) = 0;
+%u(7/0.01:end) = 0;
+lsim(symmetric, u, t)
 %initial(symetric, [0, 2/180*pi, 2/180*pi, 0], t)
 %impulse(symetric, 100)
