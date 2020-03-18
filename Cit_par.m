@@ -4,8 +4,8 @@
 
 % Stationary flight condition
 
-hp0    = (5.842e+03)*0.304;      	  % pressure altitude in the stationary flight condition [m]
-V0     = 160.8993;            % true airspeed in the stationary flight condition [m/sec]
+hp0    = (6.6295e+03)*0.304;      	  % pressure altitude in the stationary flight condition [m]
+V0     = 159.5755            % true airspeed in the stationary flight condition [m/sec]
 alpha0 = 0;       	  % angle of attack in the stationary flight condition [rad]
 th0    = 0;       	  % pitch angle in the stationary flight condition [rad]
 
@@ -71,8 +71,8 @@ CD = CD0 + (CLa*alpha0)^2/(pi*A*e);  % Drag coefficient [ ]
 % Stabiblity derivatives
 
 CX0    = W*sin(th0)/(0.5*rho*V0^2*S);
-CXu    = -0.02792;
-CXa    = -0.47966;
+CXu    = -0.095;
+CXa    = +0.47966;
 CXadot = +0.08330;
 CXq    = -0.28170;
 CXde   = -0.03728;

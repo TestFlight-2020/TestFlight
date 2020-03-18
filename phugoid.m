@@ -1,12 +1,12 @@
 run("statespace_symmetric.m");
-load("matlab.mat");
+load("ours.mat");
 
 
 aoa = flightdata.vane_AOA.data;
 t = flightdata.time.data;
 sampling_rate = 1/(t(2)-t(1));
-t_start = 31854;
-t_end = 34450;
+t_start = 29980;
+t_end = 31530;
 t = t(t_start:t_end)-t(t_start);
 
 hp = flightdata.Dadc1_alt.data(t_start)
@@ -28,12 +28,8 @@ th = flightdata.Ahrs1_Pitch.data(t_start:t_end)-th_0;
 
 y = lsim(symmetric, input, t);
 
-t_start_tas = 40*10;
-tas_num = y(t_start_tas:end, 1);
-tas_rea = tas(t_start_tas:end);
-t_sim = t(t_start_tas:end);
 
-
+title("Phugoid")
 tiledlayout(2,2);
 % nexttile
 % plot(t, input/pi*180);
