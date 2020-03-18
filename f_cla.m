@@ -25,17 +25,23 @@ A_measurementflight = [1130 5030 251 1.6 770 806 367 10.2;
 
 %[ET hp IAS a FFl FFr Fu TAT]
 
-subplot(1,2,1);
-plot(A_measurementref(:,4),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
-title("C_L_\alpha reference data");
-ylabel("C_L [-]");
-xlabel("\alpha [deg]");
+% subplot(1,2,1);
+% plot(A_measurementref(:,4),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
+% title("C_L_\alpha reference data");
+% ylabel("C_L [-]");
+% xlabel("\alpha [deg]");
+% 
+% subplot(1,2,2);
+% plot(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
+% title("C_L_\alpha flight data");
+% ylabel("C_L [-]");
+% xlabel("\alpha [deg]");
 
-subplot(1,2,2);
-plot(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
-title("C_L_\alpha flight data");
-ylabel("C_L [-]");
-xlabel("\alpha [deg]");
+clf = cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight);
+claf = (clf(6) - clf(1))/((A_measurementflight(6,4)-A_measurementflight(1,4))*pi/180)
+
+clr = cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref);
+clar = (clr(6) - clr(1))/((A_measurementref(6,4)-A_measurementref(1,4))*pi/180)
 
 
 function [W_kg] = W_loc(N_m,pounds_ZFM,pounds_FuelStart,A_measurement)
