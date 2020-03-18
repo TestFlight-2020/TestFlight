@@ -69,7 +69,7 @@ for i = 1:length(A_measurement(:,1))
     M = sqrt(Ms7);
     T = (A_measurement(i,8)+273.15)/(1+((gamma-1)/2)*M^2);
     a = sqrt(gamma*R*T);
-    V_ans(i,1) = M*a;
+    V_ans(i,1) = M*a*sqrt((p/p0)^gamma);
 end
 V_EAS = V_ans;
 end
