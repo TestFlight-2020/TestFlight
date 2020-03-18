@@ -4,39 +4,42 @@ clc;
 
 
 
-
+%run("Cit_par.m")
 
 %parameters\
-Mach = 0.26 %CHAAAAAAAAAAAAAAAAAAAANGE
-Cmdelta = -0.1293;% Also change in functions
+R = 287;
+Cmdelta = -1.1642;% Also change in functions
 Ws= 60500 ;%N 
-M_empty = 9165*0.45359 %kg
-d = 0.686
-rho = 1.225
+M_empty = 9165*0.45359 ;%kg
+d = 0.686;
+rho0 = 1.225;
+gamma = 1.4;
+p0 = 101325;
 %Payload+fuel
-Wet_mass0= 2648.7; %kg
+Wet_mass0= 2562.7; %kg
 %Initial mass
-W0 = (M_empty+Wet_mass0)*9.81 %N
+W0 = (M_empty+Wet_mass0)*9.81; %N
 
-time = [1800, 1877,1920,1980,2100,2160,2220];
+
 
 %hp,IAS,a,de,detr,Fe,FFl,FFr,Fused,TAT
-data = [7120	162	5.5	-0.2	2.6	0	472	513	580	8.5;
-7420	152	6.3	-0.7	2.6	-11	465	506	602	7.8;
-7730	142	7.4	-1.2	2.6	-29	462	500	626	6.5;
-8020	133	8.6	-1.7	2.6	-37	456	494	644	5.8;
-7390	172	4.6	0.1	2.6	17	471	512	671	8.2;
-7130	182	4.1	0.5	2.6	36	476	516	681	9.2;
-6780	192	3.5	0.7	2.6	58	483	523	700	10.5];
+data = [6510	161	5.4	0.1	3.3	0	454	500	636	1.8;
+6780	150	6.5	-0.4	3.3	-20	450	496	662	0.2;
+7200	140	7.4	-1	3.3	-34	440	488	697	-0.5;
+7540	130	8.6	-1.3	3.3	-45	437	484	721	-1.8;
+6900	170	4.8	0.4	3.3	23	455	500	745	1.5;
+6540	180	4	0.7	3.3	33	460	505	764	2.5;
+6050	190	3.5	0.9	3.3	64	469	515	790	4];
 
-hp = transpose(data(:,1))*0.3048 %m 
-V = transpose(data(:,2))*0.51444;%kts to m/s
+
+hp = transpose(data(:,1))*0.3048; %m 
+Vc = transpose(data(:,2))*0.51444;%kts to m/s
 alpha = transpose(data(:,3))/180*pi;%deg to rad
 de = transpose(data(:,4))/180*pi; %deg to rad
 Fe = transpose(data(:,6)); %N
-FFl = transpose(data(:,7))*1.25997e-4 %lbs/hr to kg/s
-FFr = transpose(data(:,8))*1.25997e-4 %lbs/hr to kg/s
-Delta_T = transpose(data(:,10))
+FFl = transpose(data(:,7))*1.25997e-4; %lbs/hr to kg/s
+FFr = transpose(data(:,8))*1.25997e-4; %lbs/hr to kg/s
+TAT = transpose(data(:,10));
 Fe_reduced = [];
 Fuel_standard = 0.048
 
@@ -50,17 +53,40 @@ end
 
 %Reducing Velocity
 V_reduced = [];
-for a=1:1:length(V);
-    temp = V(a)*sqrt(Ws/(W0-data(a,9)*4.45));
-    V_reduced = [V_reduced temp];
+Mach = [];
+TAS  = [];
+EAS  = [];
+Tcorrect = [];
+for a=1:1:length(Vc);
+p = p0*((1-(0.0065*hp(a))/273.15)^(-9.81/(-0.0065*R)));
+M025 = 1 + ((gamma-1)/(2*gamma)) * (rho0/p0) * Vc(a).^2; 
+M05 = M025.^(gamma/(gamma-1));
+M1 = M05 - 1;
+M2 = 1 + (p0./p).*M1; 
+M3 = M2.^((gamma-1)/gamma);
+M4 = M3 - 1 ;
+M5 = (2/(gamma-1))*M4 ;
+M6 = sqrt(M5);
+Mach = [Mach M6];
+Tlocal = (TAT(a)+273.15)/(1+(gamma-1)/2*M6^2);
+Tcorrect = [Tcorrect Tlocal];
+asound = sqrt(gamma*R*Tlocal);
+rho = p/(R*Tlocal);
+TASl = M6*asound;
+TAS = [TAS TASl];
+EASl = TASl*sqrt(rho/rho0);
+EAS  = [EAS EASl];
+temp = EASl*sqrt(Ws/(W0-data(a,9)*4.45));
+V_reduced = [V_reduced temp];
 end
 
 %Reducing Elevator
 de_reduced = []
-for b=1:1:length(V);
-    T = Thrustcalc(hp(b),Mach,Delta_T(b),FFl(b),FFr(b))
-    T_stand = Thrustcalc(hp(b),Mach,Delta_T(b),Fuel_standard,Fuel_standard)
-    detemp = elreduced(de(b),sum(T),sum(T_stand), V(b),rho,d)
+for b=1:1:length(Vc);
+    Delta_T = Tcorrect(b)-(288.15-0.0065*hp(b))
+    T = Thrustcalc(hp(b),Mach(b),Delta_T,FFl(b),FFr(b));
+    T_stand = Thrustcalc(hp(b),Mach(b),Delta_T,Fuel_standard,Fuel_standard);
+    detemp = elreduced(de(b),sum(T),sum(T_stand), EAS(b),rho0,d);
     de_reduced = [de_reduced detemp];
 end
 
@@ -71,7 +97,7 @@ xq = min(V_reduced):0.01:max(V_reduced);
 yq = interp1(V_reduced, de_reduced,xq,"spline");
 figure();
 hold on;
-scatter(V,de);
+scatter(V_reduced,de_reduced);
 plot(xq,yq);
 hold off;
 xlabel('Vreduced (m/s)');
@@ -146,12 +172,12 @@ load("thrust.dat");
 Thrustlr = thrust;
 end
 
-function[dereduced] = elreduced(de,T,T_stand,Vlocal,rho,d);
-run("Cit_par")
-CmT = -0.0064
-Cmdelta = -0.1293
-Tcs = T_stand/(0.5*rho*Vlocal^2*d^2)
-Tc = T/(0.5*rho*Vlocal^2*d^2) % N 
-dereduced = de - 1/Cmdelta*CmT*(Tcs-Tc)
+function[dereduced] = elreduced(de,T,T_stand,Vlocal,rho0,d);
+
+CmT = -0.0064;
+Cmdelta = -1.1642;
+Tcs = T_stand/(0.5*rho0*Vlocal^2*d^2);
+Tc = T/(0.5*rho0*Vlocal^2*d^2); % N ;
+dereduced = de - 1/Cmdelta*CmT*(Tcs-Tc);
 end
 
