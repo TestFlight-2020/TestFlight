@@ -1,7 +1,7 @@
-Hp        = 2060; %m
+Hp        = 2000; %m
 Mach      = 0.50;
-fuelleft  = 0.048; %kg/s
-fuelright = 0.048;%kg/s
+fuelleft  = 0.100546404; %kg/s
+fuelright = 0.102436374;%kg/s
 Delta_T   =  5;    %degrees
 
 Thrustcalc(Hp,Mach,Delta_T,fuelleft,fuelright)
