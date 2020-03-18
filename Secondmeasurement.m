@@ -71,7 +71,7 @@ xq = min(V_reduced):0.01:max(V_reduced);
 yq = interp1(V_reduced, de_reduced,xq,"spline");
 figure();
 hold on;
-scatter(V_reduced,de_reduced);
+scatter(V,de);
 plot(xq,yq);
 hold off;
 xlabel('Vreduced (m/s)');

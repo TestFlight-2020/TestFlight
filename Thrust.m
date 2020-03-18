@@ -11,7 +11,7 @@ function[Thrustlr] = Thrustcalc(Hp,Mach,Delta_T,fuelleft,fuelright)
 %writing to file
 array= [Hp, Mach,Delta_T,fuelleft,fuelright];
 fileID = fopen('matlab.dat','w');
-for i = 1:1:length(array);
+for i = 1:1:length(array)
 fprintf(fileID,"%d\n",array(i));
 end
 fclose(fileID);
