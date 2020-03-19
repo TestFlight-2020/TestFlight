@@ -19,7 +19,7 @@ CLa    = 5.084;            % Slope of CL-alpha curve [ ]
 
 % Longitudinal stability
 Cma    = -0.5626;            % longitudinal stabilty [ ]
-Cmde   = -1.1642;            % elevator effectiveness [ ]
+Cmde   = -1.4335;            % elevator effectiveness [ ]
 
 % Aircraft geometry
 
