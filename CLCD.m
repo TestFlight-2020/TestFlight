@@ -23,13 +23,32 @@ Hpf        = A_measurementflight(:,2)*0.3048; %m
 Machf      = M(A_measurementflight);
 fuelleftf  = A_measurementflight(:,5)*0.000125998; %kg/s 
 fuelrightf = A_measurementflight(:,6)*0.000125998;%kg/s
-Delta_Tf   =  A_measurementflight(:,8) - 15;    %degrees
+Delta_Tf   =  A_measurementflight(:,8) - 15 - 0.0065*Hpf;    %degrees
 
 Hpr        = A_measurementref(:,2)*0.3048; %m
 Machr      = M(A_measurementref);
 fuelleftr  = A_measurementref(:,5)*0.000125998; %kg/s 
 fuelrightr = A_measurementref(:,6)*0.000125998;%kg/s
-Delta_Tr   =  A_measurementref(:,8) - 15;    %degrees
+Delta_Tr   =  A_measurementref(:,8) - 15 - 0.0065*Hpr;    %degrees
+
+
+% subplot(1,2,1);
+% plot(A_measurementref(:,4),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
+% title("C_L_\alpha reference data");
+% ylabel("C_L [-]");
+% xlabel("\alpha [deg]");
+% dim = [0.25 0.2 0.35 0.1];
+% str1 = {'Clean configuration','Mach range 0.1925-0.4081','Reynolds number range 7.9064-16.8090 (10^6)'}; % 7906400.177-16808993.42
+% annotation('textbox',dim,'String',str1,'FitBoxToText','on');
+% 
+% subplot(1,2,2);
+% plot(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
+% title("C_L_\alpha flight data");
+% ylabel("C_L [-]");
+% xlabel("\alpha [deg]");
+% dim = [0.675 0.2 0.775 0.1];
+% str2 = {'Clean configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
+% annotation('textbox',dim,'String',str2,'FitBoxToText','on');
 
 
 % subplot(1,2,1);
@@ -37,28 +56,45 @@ Delta_Tr   =  A_measurementref(:,8) - 15;    %degrees
 % title("Lift over drag curve reference data");
 % ylabel("C_L [-]");
 % xlabel("C_D [-]");
+% dim = [0.25 0.2 0.35 0.1];
+% str1 = {'Clean configuration','Mach range 0.1925-0.4081','Reynolds number range 7.9064-16.8090 (10^6)'}; % 7906400.177-16808993.42
+% annotation('textbox',dim,'String',str1,'FitBoxToText','on');
 % 
 % subplot(1,2,2);
 % plot(cd(Hpf,Machf,Delta_Tf,fuelleftf,fuelrightf,A_measurementflight),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
 % title("Lift over drag curve flight data");
 % ylabel("C_L [-]");
 % xlabel("C_D [-]");
+% dim = [0.675 0.2 0.775 0.1];
+% str2 = {'Clean configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
+% annotation('textbox',dim,'String',str2,'FitBoxToText','on');
 
 A = (15.911^2)/30.00;
 clf = cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight);
 clf2 = clf.^2;
 cdf = cd(Hpf,Machf,Delta_Tf,fuelleftf,fuelrightf,A_measurementflight);
+claf = (clf(6) - clf(1))/((A_measurementflight(6,4)-A_measurementflight(1,4))*pi/180);
 ef = (clf2(6) - clf2(1))/(pi*A*(cdf(6)-cdf(1)));
 ff = griddedInterpolant(clf2,cdf);
 cd0f = ff(0);
 
+A = (15.911^2)/30.00;
 clr = cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref);
 clr2 = clr.^2;
 cdr = cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref);
+clar = (clr(6) - clr(1))/((A_measurementref(6,4)-A_measurementref(1,4))*pi/180);
 er = (clr2(6) - clr2(1))/(pi*A*(cdr(6)-cdr(1)));
 fr = griddedInterpolant(clr2,cdr);
 cd0r = fr(0);
-plot(clr2,cdr)
+
+
+% 'cla refernce data [1/rad]'
+% 'cla flight data [1/rad]' 
+% 'Oswald effiency factor reference data [-]'
+% 'Oswald effiency factor flight data [-]'
+% 'CD0 reference data [-]'
+% 'CD0 flight data [-]'
+Jonasdat = [clar;claf;er;ef;cd0r;cd0f]
 
 function [W_kg] = W_loc(N_m,pounds_ZFM,pounds_FuelStart,A_measurement)
 F_used = A_measurement(N_m,7);                    
