@@ -2,13 +2,11 @@ clear all;
 close all;
 clc;
 
-
-
 %run("Cit_par.m")
 
 %parameters\
 R = 287;
-Cmdelta = -1.1642;% Also change in functions
+Cmdelta = -1.4335;% Also change in functions
 Ws= 60500 ;%N 
 M_empty = 9165*0.45359 ;%kg
 d = 0.686;
@@ -18,7 +16,7 @@ p0 = 101325;
 %Payload+fuel
 Wet_mass0= 2562.7; %kg
 %Initial mass
-W0 = (M_empty+Wet_mass0)*9.81; %N
+W0 = (6855.94835)*9.81; %N
 
 
 
@@ -90,7 +88,7 @@ for b=1:1:length(Vc);
     de_reduced = [de_reduced detemp];
 end
 
-
+%\delta_{e_{e q}}^{*} \text { versus } \tilde{V}_{e}
 %plotting
 %elevator deflection
 xq = min(V_reduced):0.01:max(V_reduced);
@@ -100,8 +98,8 @@ hold on;
 scatter(V_reduced,de_reduced);
 plot(xq,yq);
 hold off;
-xlabel('Vreduced (m/s)');
-ylabel('Elevator deflection (rad)');
+xlabel('V_{e}');
+ylabel('\delta_{e_{e q}}^{*} (rad)');
 grid on;
 ax = gca;
 set(ax, 'Ydir', 'reverse');
@@ -116,8 +114,8 @@ hold on;
 scatter(V_reduced,Fe_reduced);
 plot(xq2,yq2);
 hold off;
-xlabel('Vreduced (m/s)');
-ylabel('Stick force reduced(N)')
+xlabel('V_{e}');
+ylabel('(F_{e}^{*}(N)')
 grid on;
 ax2 = gca;
 set(ax2, 'Ydir', 'reverse');
@@ -138,8 +136,8 @@ scatter(alpha,de);
 hold on ;
 plot(x,y);
 hold off;
-xlabel("Alpha (rad)");
-ylabel("Elevator deflection (rad)");
+xlabel("\alpha (rad)");
+ylabel("\delta_{e_{e q}}^{*} (rad)");
 
 
 grid on;
@@ -175,7 +173,7 @@ end
 function[dereduced] = elreduced(de,T,T_stand,Vlocal,rho0,d);
 
 CmT = -0.0064;
-Cmdelta = -1.1642;
+Cmdelta = -1.4335;
 Tcs = T_stand/(0.5*rho0*Vlocal^2*d^2);
 Tc = T/(0.5*rho0*Vlocal^2*d^2); % N ;
 dereduced = de - 1/Cmdelta*CmT*(Tcs-Tc);
