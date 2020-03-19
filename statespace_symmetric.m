@@ -1,8 +1,8 @@
-% clear all;
-% close all;
-% clc;
-% 
-% run("Cit_par.m")
+clear all;
+close all;
+clc;
+
+run("Cit_par.m")
 
 % Symmetric Motion
 M = eye(4);
