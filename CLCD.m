@@ -32,17 +32,33 @@ fuelrightr = A_measurementref(:,6)*0.000125998;%kg/s
 Delta_Tr   =  A_measurementref(:,8) - 15;    %degrees
 
 
-subplot(1,2,1);
-plot(cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
-title("Lift over drag curve reference data");
-ylabel("C_L [-]");
-xlabel("C_D [-]");
+% subplot(1,2,1);
+% plot(cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
+% title("Lift over drag curve reference data");
+% ylabel("C_L [-]");
+% xlabel("C_D [-]");
+% 
+% subplot(1,2,2);
+% plot(cd(Hpf,Machf,Delta_Tf,fuelleftf,fuelrightf,A_measurementflight),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
+% title("Lift over drag curve flight data");
+% ylabel("C_L [-]");
+% xlabel("C_D [-]");
 
-subplot(1,2,2);
-plot(cd(Hpf,Machf,Delta_Tf,fuelleftf,fuelrightf,A_measurementflight),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
-title("Lift over drag curve flight data");
-ylabel("C_L [-]");
-xlabel("C_D [-]");
+A = (15.911^2)/30.00;
+clf = cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight);
+clf2 = clf.^2;
+cdf = cd(Hpf,Machf,Delta_Tf,fuelleftf,fuelrightf,A_measurementflight);
+ef = (clf2(6) - clf2(1))/(pi*A*(cdf(6)-cdf(1)));
+ff = griddedInterpolant(clf2,cdf);
+cd0f = ff(0);
+
+clr = cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref);
+clr2 = clr.^2;
+cdr = cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref);
+er = (clr2(6) - clr2(1))/(pi*A*(cdr(6)-cdr(1)));
+fr = griddedInterpolant(clr2,cdr);
+cd0r = fr(0);
+plot(clr2,cdr)
 
 function [W_kg] = W_loc(N_m,pounds_ZFM,pounds_FuelStart,A_measurement)
 F_used = A_measurement(N_m,7);                    
