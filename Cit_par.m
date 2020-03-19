@@ -14,12 +14,12 @@ m      = 6000;         	  % mass [kg]
 
 % aerodynamic properties
 %e      = 0.8;       %cit_par     % Oswald factor [ ]
-e      = 1.0444;    %flight
-%e      = 0.7924;    %reference
+e      = 1.0065;    %flight
+%e      = 0.7662;    %reference
 
 %CD0    = 0.04;  %cit_par          % Zero lift drag coefficient [ ]
-CD0    = 0.04;  %flight
-%CD0    = 0.04;  %reference
+CD0    = 0.0264;  %flight
+%CD0    = 0.0273;  %reference
 
 %CLa    = 5.084;     %cit_par       % Slope of CL-alpha curve [ ]
 CLa    = 5.2637;    %flight
