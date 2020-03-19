@@ -6,7 +6,7 @@ aoa = flightdata.vane_AOA.data;
 t = flightdata.time.data;
 sampling_rate = 1/(t(2)-t(1));
 t_start = 33950;
-t_end = t_start+350;
+t_end = t_start+250;
 t = t(t_start:t_end)-t(t_start);
 
 hp = flightdata.Dadc1_alt.data(t_start)
@@ -30,7 +30,7 @@ r =  flightdata.Ahrs1_bRollRate.data(t_start:t_end)-r_0;
 ya =  flightdata.Ahrs1_bYawRate.data(t_start:t_end)-y_0;
 roll = flightdata.Ahrs1_Roll.data(t_start:t_end)-roll_0;
 
-y = lsim(asymmetric, [-ail, -rud], t);
+y = lsim(asymmetric, [-ail, rud], t);
 
 
 tiledlayout(2,2);
