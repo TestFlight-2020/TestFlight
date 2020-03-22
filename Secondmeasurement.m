@@ -6,7 +6,7 @@ clc;
 
 %parameters\
 R = 287;
-Cmdelta = -1.4335;% Also change in functions
+Cmdelta = -1.4227;% Also change in functions
 Ws= 60500 ;%N 
 M_empty = 9165*0.45359 ;%kg
 d = 0.686;
@@ -16,7 +16,7 @@ p0 = 101325;
 %Payload+fuel
 Wet_mass0= 2562.7; %kg
 %Initial mass
-W0 = (6855.94835)*9.81; %N
+W0 = (6329.8)*9.81; %N
 
 
 
@@ -137,7 +137,7 @@ hold on ;
 plot(x,y);
 hold off;
 xlabel("\alpha (rad)");
-ylabel("\delta_{e_{e q}}^{*} (rad)");
+ylabel("\delta_{e} (rad)");
 
 
 grid on;
@@ -173,7 +173,7 @@ end
 function[dereduced] = elreduced(de,T,T_stand,Vlocal,rho0,d);
 
 CmT = -0.0064;
-Cmdelta = -1.4335;
+Cmdelta = -1.4227;
 Tcs = T_stand/(0.5*rho0*Vlocal^2*d^2);
 Tc = T/(0.5*rho0*Vlocal^2*d^2); % N ;
 dereduced = de - 1/Cmdelta*CmT*(Tcs-Tc);
