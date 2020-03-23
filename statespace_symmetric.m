@@ -61,4 +61,4 @@ u(1:5/0.01) = 0;
 u(7/0.01:end) = 0;
 lsim(symmetric, u, t)
 %initial(symetric, [0, 2/180*pi, 2/180*pi, 0], t)
-%impulse(symetric, 100)
+%impulse(symmetric, 100)
