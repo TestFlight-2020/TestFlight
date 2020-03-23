@@ -4,30 +4,30 @@
 
 % Stationary flight condition
 
-hp0    = (6.6295e+03)*0.304;      	  % pressure altitude in the stationary flight condition [m]
+hp0    = (6.6539e+03)*0.304;      	  % pressure altitude in the stationary flight condition [m]
 V0     = 159.5755;            % true airspeed in the stationary flight condition [m/sec]
-alpha0 = 0;       	  % angle of attack in the stationary flight condition [rad]
-th0    = 0;       	  % pitch angle in the stationary flight condition [rad]
+alpha0 = 5.3936/180*pi;       	  % angle of attack in the stationary flight condition [rad]
+th0    = 4.3298/180*pi;       	  % pitch angle in the stationary flight condition [rad]
 
 % Aircraft mass
-m      = 6000;         	  % mass [kg]
+m      = 6317;         	  % mass [kg]
 
 % aerodynamic properties
 %e      = 0.8;       %cit_par     % Oswald factor [ ]
-e      = 1.0065;    %flight
-%e      = 0.7662;    %reference
+e      = 0.8937;    %flight
+%e      = 0.6958;    %reference
 
 %CD0    = 0.04;  %cit_par          % Zero lift drag coefficient [ ]
-CD0    = 0.0264;  %flight
-%CD0    = 0.0273;  %reference
+CD0    = 0.0228;  %flight
+%CD0    = 0.0219;  %reference
 
 %CLa    = 5.084;     %cit_par       % Slope of CL-alpha curve [ ]
-CLa    = 5.2637;    %flight
-%CLa    = 5.4199;    %reference
+CLa    = 4.5827;    %flight
+%CLa    = 4.8109;    %reference
 
 % Longitudinal stability
-Cma    = -0.5626;            % longitudinal stabilty [ ]
-Cmde   = -1.4335;            % elevator effectiveness [ ]
+Cma    = -0.6453; %-0.5626;            % longitudinal stabilty [ ]
+Cmde   = -1.4227; %-1.4335;            % elevator effectiveness [ ]
 
 % Aircraft geometry
 
@@ -79,39 +79,39 @@ CD = CD0 + (CLa*alpha0)^2/(pi*A*e);  % Drag coefficient [ ]
 % Stabiblity derivatives
 
 CX0    = W*sin(th0)/(0.5*rho*V0^2*S);
-CXu    = -0.095;
-CXa    = +0.47966;
+CXu    = -2*CL*sin(th0); %-0.095;
+CXa    = CL+(2*CLa)/(pi*A*e)*CL; %+0.47966;
 CXadot = +0.08330;
 CXq    = -0.28170;
 CXde   = -0.03728;
 
 CZ0    = -W*cos(th0)/(0.5*rho*V0^2*S);
-CZu    = -0.37616;
-CZa    = -5.74340;
+CZu    = -2*CL*cos(th0); %-0.37616;
+CZa    = -CLa-CD; %-5.74340;
 CZadot = -0.00350;
-CZq    = -5.66290;
+CZq    = -4.545; %-5.66290;
 CZde   = -0.69612;
 
 Cmu    = +0.06990;
 Cmadot = +0.17800;
-Cmq    = -8.79415;
+Cmq    = -8.295; %-8.79415;
 
-CYb    = -0.7500;
+CYb    = -0.458366; %-0.7500;
 CYbdot =  0     ;
-CYp    = -0.0304;
-CYr    = +0.8495;
+CYp    = -0.0921; %-0.0304;
+CYr    = 0.148; %+0.8495;
 CYda   = -0.0400;
 CYdr   = +0.2300;
 
-Clb    = -0.10260;
-Clp    = -0.71085;
-Clr    = +0.23760;
+Clb    = -0.10886; %-0.10260;
+Clp    = -0.5333; %-0.71085;
+Clr    = 0.0875; %+0.23760;
 Clda   = -0.23088;
 Cldr   = +0.03440;
 
-Cnb    =  +0.1348;
+Cnb    =  0.08594; %+0.1348;
 Cnbdot =   0     ;
-Cnp    =  -0.0602;
-Cnr    =  -0.2061;
+Cnp    =  0.009; %-0.0602;
+Cnr    =  -0.15; %-0.2061;
 Cnda   =  -0.0120;
 Cndr   =  -0.0939;

@@ -6,15 +6,15 @@ aoa = flightdata.vane_AOA.data;
 t = flightdata.time.data;
 sampling_rate = 1/(t(2)-t(1));
 t_start = 28100;
-t_end = t_start+180;
+t_end = t_start+130;
 t = t(t_start:t_end)-t(t_start);
 
 hp = flightdata.Dadc1_alt.data(t_start)
 
 
 V_0 = flightdata.Dadc1_cas.data(t_start)
-alpha_0 = aoa(t_start);
-elev_0 = flightdata.delta_e.data(t_start);
+alpha_0 = aoa(t_start)
+elev_0 = flightdata.delta_e.data(t_start)
 q_0 = flightdata.Ahrs1_bPitchRate.data(t_start);
 th_0 = flightdata.Ahrs1_Pitch.data(t_start);
 
