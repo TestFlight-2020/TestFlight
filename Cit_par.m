@@ -22,7 +22,7 @@ CD0    = 0.022768264652863;  %flight
 %CD0    = 0.021844387100375;  %reference
 
 %CLa    = 5.084;     %cit_par       % Slope of CL-alpha curve [ ]
-CLa    = 10*4.582734587099711;    %flight
+CLa    = 4.582734587099711;    %flight
 %CLa    = 4.810880271927855;    %reference
 
 % Longitudinal stability
