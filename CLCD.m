@@ -17,7 +17,7 @@ A_measurementflight = [1130 5030 251 1.6 770 806 367 10.2;
 1398 5020 190 3.7 533 579 456 5;
 1530 5040 161 5.6 444 488 492 4; 
 1664 5040 134 8.5 420 450 521 2.2; 
-1763 5030 121 10.4 420 450 545 1.5];
+1763 5030 121 10.4 420 450 545 1.5]; %look in to the temperatures
 
 Hpf        = A_measurementflight(:,2)*0.3048; %m
 Machf      = M(A_measurementflight);
@@ -69,32 +69,52 @@ Delta_Tr   =  A_measurementref(:,8) - 15 - 0.0065*Hpr;    %degrees
 % str2 = {'Clean configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
 % annotation('textbox',dim,'String',str2,'FitBoxToText','on');
 
+
+%Flight data processing
 A = (15.911^2)/30.00;
 clf = cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight);
 clf2 = clf.^2;
 cdf = cd(Hpf,Machf,Delta_Tf,fuelleftf,fuelrightf,A_measurementflight);
-claf = (clf(6) - clf(1))/((A_measurementflight(6,4)-A_measurementflight(1,4))*pi/180);
-ef = (clf2(6) - clf2(1))/(pi*A*(cdf(6)-cdf(1)));
-ff = griddedInterpolant(clf2,cdf);
-cd0f = ff(0);
 
+alphaf = A_measurementflight(:,4)*pi/180;
+Xf = [ones(6,1) alphaf];
+clafq = mldivide(Xf,clf);
+cl0f = clafq(1,1);
+claf =clafq(2,1);
+
+Mf =  [ones(6,1) clf2];
+usef = mldivide(Mf,cdf);
+cd0f = usef(1,1);
+ef = 1/(A*pi*(usef(2,1)));
+
+
+
+%Reference data processing
 A = (15.911^2)/30.00;
 clr = cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref);
 clr2 = clr.^2;
 cdr = cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref);
-clar = (clr(6) - clr(1))/((A_measurementref(6,4)-A_measurementref(1,4))*pi/180);
-er = (clr2(6) - clr2(1))/(pi*A*(cdr(6)-cdr(1)));
-fr = griddedInterpolant(clr2,cdr);
-cd0r = fr(0);
 
 
+alphar = A_measurementref(:,4)*pi/180;
+Xr = [ones(6,1) alphar];
+clarq = mldivide(Xr,clr);
+cl0r = clarq(1,1);
+clar = clarq(2,1);
+
+Mr =  [ones(6,1) clr2];
+user = mldivide(Mr,cdr);
+cd0r = user(1,1);
+er = 1/(A*pi*(user(2,1)));
+
+
+% 'cla flight data [1/rad]'
 % 'cla refernce data [1/rad]'
-% 'cla flight data [1/rad]' 
-% 'Oswald effiency factor reference data [-]'
 % 'Oswald effiency factor flight data [-]'
-% 'CD0 reference data [-]'
+% 'Oswald effiency factor reference data [-]'
 % 'CD0 flight data [-]'
-Jonasdat = [clar;claf;er;ef;cd0r;cd0f]
+% 'CD0 reference data [-]'
+Jonasdat = [claf;clar;ef;er;cd0f;cd0r]
 
 function [W_kg] = W_loc(N_m,pounds_ZFM,pounds_FuelStart,A_measurement)
 F_used = A_measurement(N_m,7);                    
@@ -173,7 +193,8 @@ for i = 1:length(A_measurement(:,1))
     M = sqrt(Ms7);
     T = (A_measurement(i,8)+273.15)/(1+((gamma-1)/2)*M^2);
     a = sqrt(gamma*R*T);
-    V_ans(i,1) = M*a*sqrt((p/p0)^gamma);
+    rho = p/(R*T);
+    V_ans(i,1) = M*a*sqrt(rho/rho0);
 end
 V_EAS = V_ans;
 end
