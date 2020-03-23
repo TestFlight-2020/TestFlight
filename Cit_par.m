@@ -4,13 +4,13 @@
 
 % Stationary flight condition
 
-hp0    = (6.6295e+03)*0.304;      	  % pressure altitude in the stationary flight condition [m]
+hp0    = (6.6539e+03)*0.304;      	  % pressure altitude in the stationary flight condition [m]
 V0     = 159.5755;            % true airspeed in the stationary flight condition [m/sec]
-alpha0 = 0;       	  % angle of attack in the stationary flight condition [rad]
-th0    = 0;       	  % pitch angle in the stationary flight condition [rad]
+alpha0 = 5.3936/180*pi;       	  % angle of attack in the stationary flight condition [rad]
+th0    = 4.3298;       	  % pitch angle in the stationary flight condition [rad]
 
 % Aircraft mass
-m      = 6000;         	  % mass [kg]
+m      = 6317;         	  % mass [kg]
 
 % aerodynamic properties
 %e      = 0.8;       %cit_par     % Oswald factor [ ]
@@ -22,12 +22,12 @@ CD0    = 0.022768264652863;  %flight
 %CD0    = 0.021844387100375;  %reference
 
 %CLa    = 5.084;     %cit_par       % Slope of CL-alpha curve [ ]
-CLa    = 10*4.582734587099711;    %flight
+CLa    = 4.582734587099711;    %flight
 %CLa    = 4.810880271927855;    %reference
 
 % Longitudinal stability
-Cma    = -0.5626;            % longitudinal stabilty [ ]
-Cmde   = -1.4335;            % elevator effectiveness [ ]
+Cma    = -0.6453; %-0.5626;            % longitudinal stabilty [ ]
+Cmde   = -1.4227; %-1.4335;            % elevator effectiveness [ ]
 
 % Aircraft geometry
 
@@ -79,22 +79,22 @@ CD = CD0 + (CLa*alpha0)^2/(pi*A*e);  % Drag coefficient [ ]
 % Stabiblity derivatives
 
 CX0    = W*sin(th0)/(0.5*rho*V0^2*S);
-CXu    = -0.095;
-CXa    = +0.47966;
-CXadot = +0.08330;
+CXu    = -2*CD; %-0.095;
+CXa    = CL-(2*CLa/180*pi)/(pi*A*e)*CL; %+0.47966;
+CXadot = 0; %+0.08330;
 CXq    = -0.28170;
-CXde   = -0.03728;
+CXde   = 0; %-0.03728;
 
-CZ0    = -W*cos(th0)/(0.5*rho*V0^2*S);
-CZu    = -0.37616;
-CZa    = -5.74340;
+CZ0    = -CL; %-W*cos(th0)/(0.5*rho*V0^2*S);
+CZu    = -2*CL; %-0.37616;
+CZa    = -CLa-CD; %-5.74340;
 CZadot = -0.00350;
-CZq    = -5.66290;
+CZq    = -4.545; %-5.66290;
 CZde   = -0.69612;
 
 Cmu    = +0.06990;
 Cmadot = +0.17800;
-Cmq    = -8.79415;
+Cmq    = -8.095; %-8.79415;
 
 CYb    = -0.7500;
 CYbdot =  0     ;
