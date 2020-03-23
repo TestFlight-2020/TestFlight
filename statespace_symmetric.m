@@ -55,10 +55,10 @@ symmetric.OutputName = ["Velocity deviation", "Angle of Attack", "Pitch angle", 
 
 A
 eig(symmetric.A)
-t = 0:0.01:135;
-u = -0.5/180*pi*ones(size(t));
-u(1:5/0.01) = 0;
-u(7/0.01:end) = 0;
+ t = 0:0.01:200;
+ u = -0.5/180*pi*ones(size(t));
+ u(1:5/0.01) = 0;
+ %u(7/0.01:end) = 0;
 lsim(symmetric, u, t)
 %initial(symetric, [0, 2/180*pi, 2/180*pi, 0], t)
 %impulse(symmetric, 100)
