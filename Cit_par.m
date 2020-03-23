@@ -7,7 +7,7 @@
 hp0    = (6.6539e+03)*0.304;      	  % pressure altitude in the stationary flight condition [m]
 V0     = 159.5755;            % true airspeed in the stationary flight condition [m/sec]
 alpha0 = 5.3936/180*pi;       	  % angle of attack in the stationary flight condition [rad]
-th0    = 4.3298;       	  % pitch angle in the stationary flight condition [rad]
+th0    = 4.3298/180*pi;       	  % pitch angle in the stationary flight condition [rad]
 
 % Aircraft mass
 m      = 6317;         	  % mass [kg]
@@ -79,14 +79,14 @@ CD = CD0 + (CLa*alpha0)^2/(pi*A*e);  % Drag coefficient [ ]
 % Stabiblity derivatives
 
 CX0    = W*sin(th0)/(0.5*rho*V0^2*S);
-CXu    = -2*CD; %-0.095;
-CXa    = CL-(2*CLa/180*pi)/(pi*A*e)*CL; %+0.47966;
-CXadot = 0; %+0.08330;
+CXu    = -2*CL*sin(th0); %-0.095;
+CXa    = CL+(2*CLa)/(pi*A*e)*CL; %+0.47966;
+CXadot = +0.08330;
 CXq    = -0.28170;
-CXde   = 0; %-0.03728;
+CXde   = -0.03728;
 
-CZ0    = -CL; %-W*cos(th0)/(0.5*rho*V0^2*S);
-CZu    = -2*CL; %-0.37616;
+CZ0    = -W*cos(th0)/(0.5*rho*V0^2*S);
+CZu    = -2*CL*cos(th0); %-0.37616;
 CZa    = -CLa-CD; %-5.74340;
 CZadot = -0.00350;
 CZq    = -4.545; %-5.66290;
@@ -96,14 +96,14 @@ Cmu    = +0.06990;
 Cmadot = +0.17800;
 Cmq    = -8.095; %-8.79415;
 
-CYb    = -0.7500;
+CYb    = -0.458366; %-0.7500;
 CYbdot =  0     ;
 CYp    = -0.0304;
 CYr    = +0.8495;
 CYda   = -0.0400;
 CYdr   = +0.2300;
 
-Clb    = -0.10260;
+Clb    = -0.10886; %-0.10260;
 Clp    = -0.71085;
 Clr    = +0.23760;
 Clda   = -0.23088;
