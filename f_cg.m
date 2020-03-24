@@ -27,8 +27,8 @@ Wlh = flightdata.lh_engine_FMF.data/3600;       %pounds/s
 Wrh = flightdata.rh_engine_FMF.data/3600;       %pounds/s
 time = flightdata.time.data;                    %s
 
-a = W(2998,pounds_ZFMflight,pounds_FuelStartflight,Wlh,Wrh)
-% cg(500,A_payloadflight,BEM,pounds_FuelStartflight,pounds_ZFMflight,A_fuel,Wlh,Wrh)
+W(9.1,pounds_ZFMflight,pounds_FuelStartflight,Wlh,Wrh)
+cg(9.1,A_payloadflight,BEM,pounds_FuelStartflight,pounds_ZFMflight,A_fuel,Wlh,Wrh)
 
 
 function [Wans] = W(t,pounds_ZFM,pounds_FuelStart,Wlh,Wrh)

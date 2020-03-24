@@ -23,51 +23,16 @@ Hpf        = A_measurementflight(:,2)*0.3048; %m
 Machf      = M(A_measurementflight);
 fuelleftf  = A_measurementflight(:,5)*0.000125998; %kg/s 
 fuelrightf = A_measurementflight(:,6)*0.000125998;%kg/s
-Delta_Tf   =  A_measurementflight(:,8) - 15 - 0.0065*Hpf;    %degrees
+aewf       = (ones(6,1)+0.2*Machf.^2);
+Delta_Tf   = A_measurementflight(:,8)./aewf - 15 - 0.0065*Hpf;    %degrees
 
 Hpr        = A_measurementref(:,2)*0.3048; %m
 Machr      = M(A_measurementref);
 fuelleftr  = A_measurementref(:,5)*0.000125998; %kg/s 
 fuelrightr = A_measurementref(:,6)*0.000125998;%kg/s
-Delta_Tr   =  A_measurementref(:,8) - 15 - 0.0065*Hpr;    %degrees
+aewr       = (ones(6,1)+0.2*Machr.^2);
+Delta_Tr   = A_measurementref(:,8)./aewr - 15 - 0.0065*Hpr;    %degrees
 
-
-% subplot(1,2,1);
-% plot(A_measurementref(:,4),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
-% title("C_L_\alpha reference data");
-% ylabel("C_L [-]");
-% xlabel("\alpha [deg]");
-% dim = [0.25 0.2 0.35 0.1];
-% str1 = {'Clean configuration','Mach range 0.1925-0.4081','Reynolds number range 7.9064-16.8090 (10^6)'}; % 7906400.177-16808993.42
-% annotation('textbox',dim,'String',str1,'FitBoxToText','on');
-% 
-% subplot(1,2,2);
-% plot(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
-% title("C_L_\alpha flight data");
-% ylabel("C_L [-]");
-% xlabel("\alpha [deg]");
-% dim = [0.675 0.2 0.775 0.1];
-% str2 = {'Clean configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
-% annotation('textbox',dim,'String',str2,'FitBoxToText','on');
-
-
-% subplot(1,2,1);
-% plot(cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
-% title("Lift over drag curve reference data");
-% ylabel("C_L [-]");
-% xlabel("C_D [-]");
-% dim = [0.25 0.2 0.35 0.1];
-% str1 = {'Clean configuration','Mach range 0.1925-0.4081','Reynolds number range 7.9064-16.8090 (10^6)'}; % 7906400.177-16808993.42
-% annotation('textbox',dim,'String',str1,'FitBoxToText','on');
-% 
-% subplot(1,2,2);
-% plot(cd(Hpf,Machf,Delta_Tf,fuelleftf,fuelrightf,A_measurementflight),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
-% title("Lift over drag curve flight data");
-% ylabel("C_L [-]");
-% xlabel("C_D [-]");
-% dim = [0.675 0.2 0.775 0.1];
-% str2 = {'Clean configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
-% annotation('textbox',dim,'String',str2,'FitBoxToText','on');
 
 
 %Flight data processing
@@ -97,24 +62,71 @@ cdr = cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref);
 
 
 alphar = A_measurementref(:,4)*pi/180;
-Xr = [ones(6,1) alphar];
-clarq = mldivide(Xr,clr);
+Xr = [ones(5,1) alphar(1:5,1)];
+clarq = mldivide(Xr,clr(1:5,1));
 cl0r = clarq(1,1);
 clar = clarq(2,1);
 
-Mr =  [ones(6,1) clr2];
-user = mldivide(Mr,cdr);
+Mr =  [ones(5,1) clr2(1:5,1)];
+user = mldivide(Mr,cdr(1:5,1));
 cd0r = user(1,1);
 er = 1/(A*pi*(user(2,1)));
 
 
+subplot(1,2,1);
+scatter(A_measurementref(:,4),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref)); 
+hold on;
+ar = -2:0.1:12;
+plot(ar,(cl0r+clar*ar*pi/180));
+title("C_L_\alpha reference data");
+ylabel("C_L [-]");
+xlabel("\alpha [deg]");
+dim = [0.25 0.2 0.35 0.1];
+str1 = {'Cruise configuration','Mach range 0.1925-0.4081','Reynolds number range 7.9064-16.8090 (10^6)'}; % 7906400.177-16808993.42
+annotation('textbox',dim,'String',str1,'FitBoxToText','on');
+
+subplot(1,2,2);
+scatter(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
+hold on;
+af = -2:0.1:12;
+plot(af,(cl0f+claf*af*pi/180));
+title("C_L_\alpha flight data");
+ylabel("C_L [-]");
+xlabel("\alpha [deg]");
+dim = [0.675 0.2 0.775 0.1];
+str2 = {'Cruise configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
+annotation('textbox',dim,'String',str2,'FitBoxToText','on');
+
+
+% subplot(1,2,1);
+% plot(cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
+% title("Lift over drag curve reference data");
+% ylabel("C_L [-]");
+% xlabel("C_D [-]");
+% dim = [0.25 0.2 0.35 0.1];
+% str1 = {'Cruise configuration','Mach range 0.1925-0.4081','Reynolds number range 7.9064-16.8090 (10^6)'}; % 7906400.177-16808993.42
+% annotation('textbox',dim,'String',str1,'FitBoxToText','on');
+% 
+% subplot(1,2,2);
+% plot(cd(Hpf,Machf,Delta_Tf,fuelleftf,fuelrightf,A_measurementflight),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
+% title("Lift over drag curve flight data");
+% ylabel("C_L [-]");
+% xlabel("C_D [-]");
+% dim = [0.675 0.2 0.775 0.1];
+% str2 = {'Cruise configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
+% annotation('textbox',dim,'String',str2,'FitBoxToText','on');
+
+
+
 % 'cla flight data [1/rad]'
 % 'cla refernce data [1/rad]'
+% cl0 flight data [-]
+% cl0 reference data
 % 'Oswald effiency factor flight data [-]'
 % 'Oswald effiency factor reference data [-]'
 % 'CD0 flight data [-]'
 % 'CD0 reference data [-]'
-Jonasdat = [claf;clar;ef;er;cd0f;cd0r]
+Jonasdat = [claf;clar;cl0f;cl0r;ef;er;cd0f;cd0r]
 
 function [W_kg] = W_loc(N_m,pounds_ZFM,pounds_FuelStart,A_measurement)
 F_used = A_measurement(N_m,7);                    
@@ -199,8 +211,42 @@ end
 V_EAS = V_ans;
 end
 
+function [V_TAS] = VT(A_measurement)
+V_ans = zeros(length(A_measurement(:,1)),1);
+rho_ans = zeros(length(A_measurement(:,1)),1);
+%V_conv = 
+% IAS2CAS = griddedInterpolant(V_conv(:,1),V_conv(:,2));
+for i = 1:length(A_measurement(:,1))
+    gamma = 1.4;                 % constant
+    p0 = 101325;                % pressure at sea level [Pa]
+    rho0 = 1.2250;              % air density at sea level [kg/m^3] 
+    lambda = -0.0065;           % temperature gradient in ISA [K/m]
+    T0 = 288.15;                % temperature at sea level in ISA [K]
+    R = 287.05;                 % specific gas constant [m^2/sec^2K]
+    g0 = 9.81;                  % [m/sec^2] (gravity constant)
+    S = 30.00;                  % wing area [m^2]
+    V_cas = (A_measurement(i,3)-2)*0.514444;        % calibrated airspeed [m/s]
+    p = p0*(1+(lambda*(A_measurement(i,2)*0.3048))/T0)^(-g0/(lambda*R));
+    Ms1 = 1 + ((gamma-1)/(2*gamma))*(rho0/p0)*(V_cas)^2; 
+    Ms2 = Ms1^(gamma/(gamma-1));
+    Ms3 = Ms2 - 1;
+    Ms4 = 1 + (p0/p)*Ms3;
+    Ms5 = Ms4^((gamma-1)/gamma);
+    Ms6 = Ms5 - 1;
+    Ms7 = (2/(gamma-1))*Ms6;
+    M = sqrt(Ms7);
+    T = (A_measurement(i,8)+273.15)/(1+((gamma-1)/2)*M^2);
+    a = sqrt(gamma*R*T);
+    rho_ans(i,1) = p/(R*T);
+    V_ans(i,1) = M*a;
+end
+V_TAS = [V_ans rho_ans];
+end
+
 function [CD] = cd(Hp,Mach,Delta_T,fuelleft,fuelright,A_measurement)
-V_e = VE(A_measurement); 
+wer = VT(A_measurement);
+V_t = wer(:,1);
+rho = wer(:,2);
 CD_ans = zeros(length(A_measurement(:,1)),1);
 for i = 1:length(A_measurement(:,1))
     g0 = 9.81;                  % [m/sec^2] (gravity constant)
@@ -208,7 +254,7 @@ for i = 1:length(A_measurement(:,1))
     rho0 = 1.2250;              % air density at sea level [kg/m^3]
     A = Thrustcalc(Hp(i),Mach(i),Delta_T(i),fuelleft(i),fuelright(i));
     Th = A(1,1)+A(1,2);
-    CD_ans(i,1) = Th/(0.5*rho0*(V_e(i,1)^2)*S);
+    CD_ans(i,1) = Th/(0.5*(rho(i,1))*(V_t(i,1)^2)*S);
 end
 CD = CD_ans;
 end
