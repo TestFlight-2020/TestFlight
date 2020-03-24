@@ -19,19 +19,22 @@ A_measurementflight = [1130 5030 251 1.6 770 806 367 10.2;
 1664 5040 134 8.5 420 450 521 2.2; 
 1763 5030 121 10.4 420 450 545 1.5]; %look in to the temperatures
 
+T0 = [273.15;273.15;273.15;273.15;273.15;273.15];
+T02 = [288.15;288.15;288.15;288.15;288.15;288.15];
+
 Hpf        = A_measurementflight(:,2)*0.3048; %m
 Machf      = M(A_measurementflight);
 fuelleftf  = A_measurementflight(:,5)*0.000125998; %kg/s 
 fuelrightf = A_measurementflight(:,6)*0.000125998;%kg/s
 aewf       = (ones(6,1)+0.2*Machf.^2);
-Delta_Tf   = A_measurementflight(:,8)./aewf - 15 - 0.0065*Hpf;    %degrees
+Delta_Tf   = (A_measurementflight(:,8)+T0)./aewf - (T02 - 0.0065*Hpf);    %degrees
 
 Hpr        = A_measurementref(:,2)*0.3048; %m
 Machr      = M(A_measurementref);
 fuelleftr  = A_measurementref(:,5)*0.000125998; %kg/s 
 fuelrightr = A_measurementref(:,6)*0.000125998;%kg/s
 aewr       = (ones(6,1)+0.2*Machr.^2);
-Delta_Tr   = A_measurementref(:,8)./aewr - 15 - 0.0065*Hpr;    %degrees
+Delta_Tr   = (A_measurementref(:,8)+T0)./aewr - (T02 - 0.0065*Hpr);    %degrees
 
 
 
@@ -62,40 +65,40 @@ cdr = cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref);
 
 
 alphar = A_measurementref(:,4)*pi/180;
-Xr = [ones(5,1) alphar(1:5,1)];
-clarq = mldivide(Xr,clr(1:5,1));
+Xr = [ones(6,1) alphar(:,1)];
+clarq = mldivide(Xr,clr(:,1));
 cl0r = clarq(1,1);
 clar = clarq(2,1);
 
-Mr =  [ones(5,1) clr2(1:5,1)];
-user = mldivide(Mr,cdr(1:5,1));
+Mr =  [ones(6,1) clr2(:,1)];
+user = mldivide(Mr,cdr(:,1));
 cd0r = user(1,1);
 er = 1/(A*pi*(user(2,1)));
 
 
-subplot(1,2,1);
-scatter(A_measurementref(:,4),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref)); 
-hold on;
-ar = -2:0.1:12;
-plot(ar,(cl0r+clar*ar*pi/180));
-title("C_L_\alpha reference data");
-ylabel("C_L [-]");
-xlabel("\alpha [deg]");
-dim = [0.25 0.2 0.35 0.1];
-str1 = {'Cruise configuration','Mach range 0.1925-0.4081','Reynolds number range 7.9064-16.8090 (10^6)'}; % 7906400.177-16808993.42
-annotation('textbox',dim,'String',str1,'FitBoxToText','on');
-
-subplot(1,2,2);
-scatter(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
-hold on;
-af = -2:0.1:12;
-plot(af,(cl0f+claf*af*pi/180));
-title("C_L_\alpha flight data");
-ylabel("C_L [-]");
-xlabel("\alpha [deg]");
-dim = [0.675 0.2 0.775 0.1];
-str2 = {'Cruise configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
-annotation('textbox',dim,'String',str2,'FitBoxToText','on');
+% subplot(1,2,1);
+% scatter(A_measurementref(:,4),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref)); 
+% hold on;
+% ar = -2:0.1:12;
+% plot(ar,(cl0r+clar*ar*pi/180));
+% title("C_L_\alpha reference data");
+% ylabel("C_L [-]");
+% xlabel("\alpha [deg]");
+% dim = [0.25 0.2 0.35 0.1];
+% str1 = {'Cruise configuration','Mach range 0.1925-0.4081','Reynolds number range 7.9064-16.8090 (10^6)'}; % 7906400.177-16808993.42
+% annotation('textbox',dim,'String',str1,'FitBoxToText','on');
+% 
+% subplot(1,2,2);
+% scatter(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
+% hold on;
+% af = -2:0.1:12;
+% plot(af,(cl0f+claf*af*pi/180));
+% title("C_L_\alpha flight data");
+% ylabel("C_L [-]");
+% xlabel("\alpha [deg]");
+% dim = [0.675 0.2 0.775 0.1];
+% str2 = {'Cruise configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
+% annotation('textbox',dim,'String',str2,'FitBoxToText','on');
 
 
 % subplot(1,2,1);
@@ -115,7 +118,6 @@ annotation('textbox',dim,'String',str2,'FitBoxToText','on');
 % dim = [0.675 0.2 0.775 0.1];
 % str2 = {'Cruise configuration','Mach range 0.1972-0.4115','Reynolds number range 8.1178-16.9395 (10^6)'}; %8117768.57-16939461.29
 % annotation('textbox',dim,'String',str2,'FitBoxToText','on');
-
 
 
 % 'cla flight data [1/rad]'
@@ -165,10 +167,10 @@ end
 function[Thrustlr] = Thrustcalc(Hp,Mach,Delta_T,fuelleft,fuelright)
 %Hp [m],Mach [-],Delta_T[deg],fuelleft[kg/s],fuelright[kg/s]
 %writing to file
-array= [Hp, Mach,Delta_T,fuelleft,fuelright];
+array= [Hp; Mach;Delta_T;fuelleft;fuelright];
 fileID = fopen('matlab.dat','w');
 for i = 1:1:length(array)
-fprintf(fileID,"%d\n",array(i));
+fprintf(fileID,"%d\n",array(i,1));
 end
 fclose(fileID);
 
@@ -252,7 +254,7 @@ for i = 1:length(A_measurement(:,1))
     g0 = 9.81;                  % [m/sec^2] (gravity constant)
     S = 30.00;                  % wing area [m^2]
     rho0 = 1.2250;              % air density at sea level [kg/m^3]
-    A = Thrustcalc(Hp(i),Mach(i),Delta_T(i),fuelleft(i),fuelright(i));
+    A = Thrustcalc(Hp(i,1),Mach(i,1),Delta_T(i,1),fuelleft(i,1),fuelright(i,1));
     Th = A(1,1)+A(1,2);
     CD_ans(i,1) = Th/(0.5*(rho(i,1))*(V_t(i,1)^2)*S);
 end
