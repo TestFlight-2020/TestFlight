@@ -60,3 +60,10 @@ legend("Simulation", "Real flight");
 title("Pitch rate deviation");
 ylabel("[deg/s]");
 xlabel("[s]");
+
+clc
+close all
+plot(t, input/pi*180);
+title("Elevator deflection from trim trimmed position");
+ylabel("[deg]");
+xlabel("[s]");
