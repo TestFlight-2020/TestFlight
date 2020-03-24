@@ -68,7 +68,8 @@ asymmetric.OutputName = ["Side Slip Angle", "Bank Angle", "Roll Rate", "Yaw Rate
 
 eig(asymmetric.A)
 t = 0:0.01:30;
-u = zeros(size(t, 2), 2);
-u(5/0.01:7.5/0.01, 1) = 1 * pi/180;
-u(7.5/0.01:10/0.01, 1) = -1 * pi/180;
-lsim(asymmetric, u, t)
+% u = zeros(size(t, 2), 2);
+% u(5/0.01:5.5/0.01, 2) = 5 * pi/180;
+% u(5.8/0.01:6.3/0.01, 2) = -5 * pi/180;
+%lsim(asymmetric, u, t)
+initial(asymmetric, [5 *pi/180, 0, 0, 0], 15);
