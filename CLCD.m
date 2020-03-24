@@ -65,19 +65,19 @@ cdr = cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref);
 
 
 alphar = A_measurementref(:,4)*pi/180;
-Xr = [ones(6,1) alphar(:,1)];
-clarq = mldivide(Xr,clr(:,1));
+Xr = [ones(5,1) alphar(1:5,1)];
+clarq = mldivide(Xr,clr(1:5,1));
 cl0r = clarq(1,1);
 clar = clarq(2,1);
 
-Mr =  [ones(6,1) clr2(:,1)];
-user = mldivide(Mr,cdr(:,1));
+Mr =  [ones(5,1) clr2(1:5,1)];
+user = mldivide(Mr,cdr(1:5,1));
 cd0r = user(1,1);
 er = 1/(A*pi*(user(2,1)));
 
 
 % subplot(1,2,1);
-% scatter(A_measurementref(:,4),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref)); 
+% scatter(A_measurementref(:,4),clr); 
 % hold on;
 % ar = -2:0.1:12;
 % plot(ar,(cl0r+clar*ar*pi/180));
@@ -89,7 +89,7 @@ er = 1/(A*pi*(user(2,1)));
 % annotation('textbox',dim,'String',str1,'FitBoxToText','on');
 % 
 % subplot(1,2,2);
-% scatter(A_measurementflight(:,4),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
+% scatter(A_measurementflight(:,4),clf);
 % hold on;
 % af = -2:0.1:12;
 % plot(af,(cl0f+claf*af*pi/180));
@@ -102,7 +102,7 @@ er = 1/(A*pi*(user(2,1)));
 
 
 % subplot(1,2,1);
-% plot(cd(Hpr,Machr,Delta_Tr,fuelleftr,fuelrightr,A_measurementref),cl(pounds_ZFMr,pounds_FuelStartr,A_measurementref));
+% plot(cdr,clr);
 % title("Lift over drag curve reference data");
 % ylabel("C_L [-]");
 % xlabel("C_D [-]");
@@ -111,7 +111,7 @@ er = 1/(A*pi*(user(2,1)));
 % annotation('textbox',dim,'String',str1,'FitBoxToText','on');
 % 
 % subplot(1,2,2);
-% plot(cd(Hpf,Machf,Delta_Tf,fuelleftf,fuelrightf,A_measurementflight),cl(pounds_ZFMflight,pounds_FuelStartflight,A_measurementflight));
+% plot(cdf,clf);
 % title("Lift over drag curve flight data");
 % ylabel("C_L [-]");
 % xlabel("C_D [-]");
