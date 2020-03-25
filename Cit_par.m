@@ -72,8 +72,9 @@ CNha   = 2*pi*Ah/(Ah+2);        % Stabiliser normal force slope [ ]
 depsda = 4/(A+2);               % Downwash gradient [ ]
 
 % Lift and drag coefficient
+CL0 = 0.0807;
 
-CL = 0.0807+CLa*alpha0;%2*W/(rho*V0^2*S);               % Lift coefficient [ ]
+CL = CL0+CLa*alpha0;%2*W/(rho*V0^2*S);               % Lift coefficient [ ]
 CD = CD0 + (CL)^2/(pi*A*e);  % Drag coefficient [ ]
 
 % Stabiblity derivatives
@@ -85,7 +86,7 @@ CXadot = +0.08330;
 CXq    = -0.28170;
 CXde   = -0.03728;
 
-CZ0    = -W*cos(th0)/(0.5*rho*V0^2*S);
+CZ0    =  -CL0*cos(th0);
 CZu    = -2*CL*cos(th0); %-0.37616;
 CZa    = -CLa-CD; %-5.74340;
 CZadot = -0.00350;

@@ -22,9 +22,11 @@ th_0 = flightdata.Ahrs1_Pitch.data(t_start)
 input = flightdata.delta_e.data(t_start:t_end)-elev_0;
 input = input/180*pi;
 tas = flightdata.Dadc1_cas.data(t_start:t_end)-V_0;
-aoa =aoa(t_start:t_end)-alpha_0;
+aoa = aoa(t_start:t_end)-alpha_0;
 q = flightdata.Ahrs1_bPitchRate.data(t_start:t_end)-q_0;
 th = flightdata.Ahrs1_Pitch.data(t_start:t_end)-th_0;
+
+aoa = aoa + atan(q/180*pi*7.15/V0)*180/pi;
 
 y = lsim(symmetric, input, t);
 
@@ -61,9 +63,9 @@ title("Pitch rate deviation");
 ylabel("[deg/s]");
 xlabel("[s]");
 
-clc
-close all
-plot(t, input/pi*180);
-title("Elevator deflection from trim trimmed position");
-ylabel("[deg]");
-xlabel("[s]");
+% clc
+% close all
+% plot(t, input/pi*180);
+% title("Elevator deflection from trim trimmed position");
+% ylabel("[deg]");
+% xlabel("[s]");
