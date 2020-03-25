@@ -26,8 +26,6 @@ aoa = aoa(t_start:t_end)-alpha_0;
 q = flightdata.Ahrs1_bPitchRate.data(t_start:t_end)-q_0;
 th = flightdata.Ahrs1_Pitch.data(t_start:t_end)-th_0;
 
-aoa = aoa + atan(q/180*pi*7.15/V0)*180/pi;
-
 y = lsim(symmetric, input, t);
 
 
