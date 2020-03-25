@@ -78,7 +78,7 @@ CD = CD0 + (CL)^2/(pi*A*e);  % Drag coefficient [ ]
 
 % Stabiblity derivatives
 
-CX0    = W*sin(th0)/(0.5*rho*V0^2*S);
+CX0    = CL*sin(th0);
 CXu    = -2*CL*sin(th0); %-0.095;
 CXa    = CL+(2*CLa)/(pi*A*e)*CL; %+0.47966;
 CXadot = +0.08330;
