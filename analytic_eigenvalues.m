@@ -1,12 +1,4 @@
-Ap =  4*muc^2*KY2;
-Bp = -2*muc*(KY2*CZa+Cmadot+Cmq);
-Cp = CZa*Cmq -2*muc*Cma;
 
-syms lam;
-
-p = Ap*lam^2+Bp*lam+Cp;
-R = solve(p,lam);
-Rnumeric = vpa(R)
 
 Asimp_sp = zeros(2,2);
 
