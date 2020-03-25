@@ -39,3 +39,19 @@ Asimp_dr2 = -inv(C1_dr)*C2_dr
 Asimp_dr
 eig(Asimp_dr)
 
+
+C1_ph = zeros(3,3);
+C1_ph(1,1) = -2*muc*Dc;
+C1_ph(3,2)=-Dc;
+
+C2_ph = zeros(3,3);
+C2_ph(1,1)=CXu;
+C2_ph(1,2)=CZ0;
+C2_ph(2,1)=CZu;
+C2_ph(2,3)=2*muc;
+C2_ph(3,3)=Cmq;
+
+Asimp_ph_inv = -C1_ph*inv(C2_ph)
+eigenv=eig(Asimp_ph_inv)
+eigenv.^(-1)
+
