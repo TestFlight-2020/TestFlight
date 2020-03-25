@@ -27,6 +27,7 @@ q = flightdata.Ahrs1_bPitchRate.data(t_start:t_end)-q_0;
 th = flightdata.Ahrs1_Pitch.data(t_start:t_end)-th_0;
 
 y = lsim(symmetric, input, t);
+eig(symmetric.A)
 
 
 title("Phugoid")
