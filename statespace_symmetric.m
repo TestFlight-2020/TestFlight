@@ -2,7 +2,7 @@ clear all;
 close all;
 clc;
 
-run("Cit_par.m")
+run("Cit_par_ref.m")
 
 % Symmetric Motion
 M = eye(4);

@@ -86,7 +86,7 @@ CXadot = +0.08330;
 CXq    = -0.28170;
 CXde   = -0.03728;
 
-CZ0    =  -CL0*cos(th0);
+CZ0    =  -W*cos(th0)/(0.5*rho*V0^2*S);
 CZu    = -2*CL*cos(th0); %-0.37616;
 CZa    = -CLa-CD; %-5.74340;
 CZadot = -0.00350;
