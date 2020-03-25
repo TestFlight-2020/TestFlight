@@ -54,11 +54,51 @@ symmetric = ss(A,B,C,D);
 symmetric.OutputName = ["Velocity deviation", "Angle of Attack", "Pitch angle", "Pitch Rate"];
 
 A
-eig(symmetric.A)
- t = 0:0.01:400;
- u = -0.5/180*pi*ones(size(t));
- u(1:5/0.01) = 0;
- u(7/0.01:end) = 0;
-lsim(symmetric, u, t)
+t = 0:0.01:5;
+in = zeros(size(t));
+in(1:10) = 0.5/180*pi;
+[P,D] = eig(symmetric.A)
+first = lsim(symmetric, in, t);P(:,1) .* [exp(1).^(D(1,1)*t)];
+second = P(:,2) .* [exp(1).^(D(2,2)*t)];
+third = P(:,3) .* [exp(1).^(D(3,3)*t)];
+fourth = P(:,4) .* [exp(1).^(D(4,4)*t)];
+first = first';
+tiledlayout(4,1);
+nexttile
+plot(t, real(first(1,:)))%, t, real(second(1,:)), t, real(third(1,:)), t, real(fourth(1,:)))
+%legend("First Eigenmotion", "Second Eigenmotion", "Third Eigenmotion", "Fourth Eigenmotion")
+legend("Shortperiod")
+title("Speed deviation")
+ylabel("[m/s]");
+xlabel("[s]");
+
+nexttile
+plot(t, real(first(2,:)))%, t, real(second(2,:)), t, real(third(2,:)), t, real(fourth(2,:)))
+legend("First Eigenmotion", "Second Eigenmotion", "Third Eigenmotion", "Fourth Eigenmotion")
+legend("Shortperiod")
+title("Angle of attack deviation");
+ylabel("[deg]");
+xlabel("[s]");
+
+nexttile
+plot(t, real(first(3,:)))%, t, real(second(3,:)), t, real(third(3,:)), t, real(fourth(3,:)))
+legend("First Eigenmotion", "Second Eigenmotion", "Third Eigenmotion", "Fourth Eigenmotion")
+legend("Shortperiod")
+title("Pitch deviation");
+ylabel("[deg]");
+xlabel("[s]");
+
+nexttile
+plot(t, real(first(4,:)))%, t, real(second(4,:)), t, real(third(4,:)), t, real(fourth(4,:)))
+legend("First Eigenmotion", "Second Eigenmotion", "Third Eigenmotion", "Fourth Eigenmotion")
+legend("Shortperiod")
+title("Pitch rate deviation");
+ylabel("[deg]");
+xlabel("[s]");
+
+%  u = -0.5/180*pi*ones(size(t));
+%  u(1:5/0.01) = 0;
+%  u(7/0.01:end) = 0;
+% lsim(symmetric, u, t)
 %initial(symetric, [0, 2/180*pi, 2/180*pi, 0], t)
 %impulse(symmetric, 100)

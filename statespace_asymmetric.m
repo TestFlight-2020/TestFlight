@@ -68,7 +68,42 @@ asymmetric.OutputName = ["Side Slip Angle", "Bank Angle", "Roll Rate", "Yaw Rate
 
 eig(asymmetric.A)
 t = 0:0.01:30;
-u = zeros(size(t, 2), 2);
-u(5/0.01:7.5/0.01, 1) = 1 * pi/180;
-u(7.5/0.01:10/0.01, 1) = -1 * pi/180;
-lsim(asymmetric, u, t)
+[P,D] = eig(asymmetric.A)
+first = P(:,1) .* [exp(1).^(D(1,1)*t)];
+second = P(:,2) .* [exp(1).^(D(2,2)*t)];
+third = P(:,3) .* [exp(1).^(D(3,3)*t)];
+fourth = P(:,4) .* [exp(1).^(D(4,4)*t)];
+
+tiledlayout(2,2);
+nexttile
+plot(t, real(first(1,:)), t, real(second(1,:)), t, real(third(1,:)), t, real(fourth(1,:)))
+legend("First Eigenmotion", "Second Eigenmotion", "Third Eigenmotion", "Fourth Eigenmotion")
+title("Sideslip")
+ylabel("[deg]");
+xlabel("[s]");
+
+nexttile
+plot(t, real(first(2,:)), t, real(second(2,:)), t, real(third(2,:)), t, real(fourth(2,:)))
+legend("First Eigenmotion", "Second Eigenmotion", "Third Eigenmotion", "Fourth Eigenmotion")
+title("Roll angle deviation");
+ylabel("[deg]");
+xlabel("[s]");
+
+nexttile
+plot(t, real(first(3,:)), t, real(second(3,:)), t, real(third(3,:)), t, real(fourth(3,:)))
+legend("First Eigenmotion", "Second Eigenmotion", "Third Eigenmotion", "Fourth Eigenmotion")
+title("Roll rate");
+ylabel("[deg/s]");
+xlabel("[s]");
+
+nexttile
+plot(t, real(first(4,:)), t, real(second(4,:)), t, real(third(4,:)), t, real(fourth(4,:)))
+legend("First Eigenmotion", "Second Eigenmotion", "Third Eigenmotion", "Fourth Eigenmotion")
+title("Yaw Rate");
+ylabel("[deg]");
+xlabel("[s]");
+
+% u = zeros(size(t, 2), 2);
+% u(5/0.01:7.5/0.01, 1) = 1 * pi/180;
+% u(7.5/0.01:10/0.01, 1) = -1 * pi/180;
+% lsim(asymmetric, u, t)
