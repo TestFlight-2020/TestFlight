@@ -31,7 +31,7 @@ data = [6510	161	5.4	0.1	3.3	0	454	500	636	1.8;
 
 
 hp = transpose(data(:,1))*0.3048; %m 
-Vc = transpose(data(:,2))*0.51444;%kts to m/s
+Vc = (transpose(data(:,2))-2)*0.51444;%kts to m/s
 alpha = transpose(data(:,3))/180*pi;%deg to rad
 de = transpose(data(:,4))/180*pi; %deg to rad
 Fe = transpose(data(:,6)); %N
@@ -56,7 +56,7 @@ TAS  = [];
 EAS  = [];
 Tcorrect = [];
 for a=1:1:length(Vc);
-p = p0*((1-(0.0065*hp(a))/273.15)^(-9.81/(-0.0065*R)));
+p = p0*((1-(0.0065*hp(a))/288.15)^(-9.81/(-0.0065*R)))
 M025 = 1 + ((gamma-1)/(2*gamma)) * (rho0/p0) * Vc(a).^2; 
 M05 = M025.^(gamma/(gamma-1));
 M1 = M05 - 1;
@@ -69,7 +69,7 @@ Mach = [Mach M6];
 Tlocal = (TAT(a)+273.15)/(1+(gamma-1)/2*M6^2);
 Tcorrect = [Tcorrect Tlocal];
 asound = sqrt(gamma*R*Tlocal);
-rho = p/(R*Tlocal);
+rho = p/(R*Tlocal)
 TASl = M6*asound;
 TAS = [TAS TASl];
 EASl = TASl*sqrt(rho/rho0);
@@ -174,8 +174,9 @@ function[dereduced] = elreduced(de,T,T_stand,Vlocal,rho0,d);
 
 CmT = -0.0064;
 Cmdelta = -1.4227;
-Tcs = T_stand/(0.5*rho0*Vlocal^2*d^2);
-Tc = T/(0.5*rho0*Vlocal^2*d^2); % N ;
-dereduced = de - 1/Cmdelta*CmT*(Tcs-Tc);
+Tcs = T_stand/(0.5*rho0*Vlocal^2*d^2)
+Tc = T/(0.5*rho0*Vlocal^2*d^2) % N ;
+dereduced = de - 1/Cmdelta*CmT*(Tcs-Tc)
+
 end
 
