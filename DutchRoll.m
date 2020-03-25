@@ -9,10 +9,10 @@ t_start = 33950;
 t_end = t_start+250;
 t = t(t_start:t_end)-t(t_start);
 
-hp = flightdata.Dadc1_alt.data(t_start)
+hp = flightdata.Dadc1_alt.data(t_start);
 
 
-V_0 = flightdata.Dadc1_cas.data(t_start)
+V_0 = flightdata.Dadc1_cas.data(t_start);
 
 ail_0 = flightdata.delta_a.data(t_start);
 rud_0 = flightdata.delta_r.data(t_start);
