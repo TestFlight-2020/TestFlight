@@ -1,21 +1,25 @@
+clear all;
+close all;
+clc;
 
+run("Cit_par.m")
 
-Asimp_sp = zeros(2,2);
-
-Dc = c/V0;
-
-Asimp_sp(1,1)=CZa/(2*muc*Dc);
-Asimp_sp(1,2)=1/Dc;
-Asimp_sp(2,1)=(CZa*Cmadot/(4*muc^2*KY2*Dc))+(Cma/(2*muc*KY2*Dc));
-Asimp_sp(2,2)=(Cmadot+Cmq)/(2*muc*KY2*Dc);
-
-Asimp_sp
-eig(Asimp_sp)
+% Asimp_sp = zeros(2,2);
+% 
+ Dc = c/V0;
+% 
+% Asimp_sp(1,1)=CZa/(2*muc*Dc);
+% Asimp_sp(1,2)=1/Dc;
+% Asimp_sp(2,1)=(CZa*Cmadot/(4*muc^2*KY2*Dc))+(Cma/(2*muc*KY2*Dc));
+% Asimp_sp(2,2)=(Cmadot+Cmq)/(2*muc*KY2*Dc);
+% 
+% Asimp_sp
+% eig(Asimp_sp)
 
 % Asimp_dr = zeros(2,2);
 % 
-% Db = b/V0;
-% 
+ Db = b/V0;
+
 % Asimp_dr(1,1) = CYb/(2*mub*Db);
 % Asimp_dr(1,2) = -2/Db;
 % Asimp_dr(2,1) = Cnb/(4*mub*KZ2*Db);
@@ -56,21 +60,21 @@ eig(Asimp_sp)
 % eigenv.^(-1)
 % 
 % 
-% C1_sp = zeros(4,4);
-% C1_sp(2,2)=-(1/2)*Db;
-% 
-% C2_sp = zeros(4,4);
-% C2_sp(1,1)=CYb;
-% C2_sp(1,2)=CL;
-% C2_sp(1,4)=-4*mub;
-% C2_sp(2,3)=1;
-% C2_sp(3,1)=Clb;
-% C2_sp(3,3)=Clp;
-% C2_sp(3,4)=Clr;
-% C2_sp(4,1)=Cnb;
-% C2_sp(4,3)=Cnp;
-% C2_sp(4,4)=Cnr;
-% 
-% Asimp_sp_inv = -C1_sp*inv(C2_sp)
-% eigenv=eig(Asimp_sp_inv)
-% eigenv.^(-1)
+C1_sp = zeros(4,4);
+C1_sp(2,2)=-(1/2)*Db;
+
+C2_sp = zeros(4,4);
+C2_sp(1,1)=CYb;
+C2_sp(1,2)=CL;
+C2_sp(1,4)=-4*mub;
+C2_sp(2,3)=1;
+C2_sp(3,1)=Clb;
+C2_sp(3,3)=Clp;
+C2_sp(3,4)=Clr;
+C2_sp(4,1)=Cnb;
+C2_sp(4,3)=Cnp;
+C2_sp(4,4)=Cnr;
+
+Asimp_sp_inv = -C1_sp*inv(C2_sp)
+eigenv=eig(Asimp_sp_inv)
+eigenv.^(-1)
