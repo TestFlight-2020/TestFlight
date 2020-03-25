@@ -77,7 +77,7 @@ CL0 = 0.0807;
 CL = CL0+CLa*alpha0;%2*W/(rho*V0^2*S);               % Lift coefficient [ ]
 CD = CD0 + (CL)^2/(pi*A*e);  % Drag coefficient [ ]
 
-% Stabiblity derivatives
+% Stability derivatives
 
 CX0    = CL*sin(th0);
 CXu    = -2*CL*sin(th0); %-0.095;
