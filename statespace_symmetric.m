@@ -2,7 +2,7 @@ clear all;
 close all;
 clc;
 
-run("Cit_par.m")
+run("Cit_par_ref.m")
 
 % Symmetric Motion
 M = eye(4);
@@ -48,7 +48,6 @@ C = eye(4);
 C(2,2) = 180/pi;
 C(3,3) = 180/pi;
 C(4,4) = 180/pi;
-C(2,4) = -7.16/V0;
 D = [0;0;0;0];
 
 symmetric = ss(A,B,C,D);
