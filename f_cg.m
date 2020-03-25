@@ -27,8 +27,8 @@ Wlh = flightdata.lh_engine_FMF.data/3600;       %pounds/s
 Wrh = flightdata.rh_engine_FMF.data/3600;       %pounds/s
 time = flightdata.time.data;                    %s
 
-W(9.1,pounds_ZFMflight,pounds_FuelStartflight,Wlh,Wrh)
-cg(9.1,A_payloadflight,BEM,pounds_FuelStartflight,pounds_ZFMflight,A_fuel,Wlh,Wrh)
+cgmin = cg(9.1,A_payloadflight,BEM,pounds_FuelStartflight,pounds_ZFMflight,A_fuel,Wlh,Wrh)
+cgmax = cg(5434.9,A_payloadflight,BEM,pounds_FuelStartflight,pounds_ZFMflight,A_fuel,Wlh,Wrh)
 
 
 function [Wans] = W(t,pounds_ZFM,pounds_FuelStart,Wlh,Wrh)
@@ -62,5 +62,5 @@ a = W(t,pounds_ZFM,pounds_FuelStart,Wlh,Wrh);
 cg_in = Mtot/a(1,1) - 261.56;            %inch from the leading edge of the MAC
 cg_m = cg_in*0.0254;
 cg_pMAC = cg_in/80.98;
-cgans = [cg_in cg_m cg_pMAC];
+cgans = [cg_in; cg_m; cg_pMAC];
 end
