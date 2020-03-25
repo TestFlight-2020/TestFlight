@@ -8,6 +8,7 @@ run("Cit_par.m")
 M = eye(4);
 M(3,3) = 2*V0/b;
 M(4,4) = 2*V0/b;
+M
 M = inv(M);
 
 Db = b/V0;

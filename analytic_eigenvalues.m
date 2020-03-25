@@ -49,9 +49,28 @@ C2_ph(1,1)=CXu;
 C2_ph(1,2)=CZ0;
 C2_ph(2,1)=CZu;
 C2_ph(2,3)=2*muc;
-C2_ph(3,3)=Cmq;
+C2_ph(3,3)=1;
 
 Asimp_ph_inv = -C1_ph*inv(C2_ph)
 eigenv=eig(Asimp_ph_inv)
 eigenv.^(-1)
 
+
+C1_sp = zeros(4,4);
+C1_sp(2,2)=-(1/2)*Db;
+
+C2_sp = zeros(4,4);
+C2_sp(1,1)=CYb;
+C2_sp(1,2)=CL;
+C2_sp(1,4)=-4*mub;
+C2_sp(2,3)=1;
+C2_sp(3,1)=Clb;
+C2_sp(3,3)=Clp;
+C2_sp(3,4)=Clr;
+C2_sp(4,1)=Cnb;
+C2_sp(4,3)=Cnp;
+C2_sp(4,4)=Cnr;
+
+Asimp_sp_inv = -C1_sp*inv(C2_sp)
+eigenv=eig(Asimp_sp_inv)
+eigenv.^(-1)

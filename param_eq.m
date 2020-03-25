@@ -10,4 +10,4 @@ syms lam;
 
 p = Ap*lam^2+Bp*lam+Cp;
 R = solve(p,lam);
-Rnumeric = vpa(R)
+Rsol = vpa(R)
