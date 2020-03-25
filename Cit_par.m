@@ -73,8 +73,8 @@ depsda = 4/(A+2);               % Downwash gradient [ ]
 
 % Lift and drag coefficient
 
-CL = 2*W/(rho*V0^2*S);               % Lift coefficient [ ]
-CD = CD0 + (CLa*alpha0)^2/(pi*A*e);  % Drag coefficient [ ]
+CL = 0.0807+CLa*alpha0;%2*W/(rho*V0^2*S);               % Lift coefficient [ ]
+CD = CD0 + (CL)^2/(pi*A*e);  % Drag coefficient [ ]
 
 % Stabiblity derivatives
 
